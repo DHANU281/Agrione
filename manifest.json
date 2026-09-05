@@ -1,0 +1,10 @@
+{
+  "name": "AgriOne",
+  "short_name": "AgriOne",
+  "description": "Smart Farming Platform for Farmers",
+  "start_url": "./index.html/index.html",
+  "display": "standalone",
+  "background_color": "#f5faf5",
+  "theme_color": "#184d2a",
+  "icons": [{ "src": "./assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}

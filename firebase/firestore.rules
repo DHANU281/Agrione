@@ -1,0 +1,32 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function isOwner(uid) { return signedIn() && request.auth.uid == uid; }
+    function isAdmin() { return signedIn() && request.auth.token.admin == true; }
+
+    match /farmers/{uid} {
+      allow read, write: if isOwner(uid) || isAdmin();
+    }
+    match /crops/{cropId} {
+      allow read: if signedIn();
+      allow create: if signedIn() && request.resource.data.farmerId == request.auth.uid;
+      allow update, delete: if isOwner(resource.data.farmerId) || isAdmin();
+    }
+    match /orders/{orderId} {
+      allow read: if signedIn() && (resource.data.buyerId == request.auth.uid || resource.data.sellerId == request.auth.uid || isAdmin());
+      allow create: if signedIn() && request.resource.data.buyerId == request.auth.uid;
+      allow update: if signedIn() && (resource.data.buyerId == request.auth.uid || resource.data.sellerId == request.auth.uid || isAdmin());
+    }
+    match /diseaseReports/{reportId} { allow read, create: if signedIn() && (request.resource.data.farmerId == request.auth.uid || resource.data.farmerId == request.auth.uid || isAdmin()); }
+    match /equipmentRequests/{requestId} { allow read, create: if signedIn() && (request.resource.data.farmerId == request.auth.uid || resource.data.farmerId == request.auth.uid || isAdmin()); }
+    match /soilTestRequests/{requestId} { allow read, create: if signedIn() && (request.resource.data.farmerId == request.auth.uid || resource.data.farmerId == request.auth.uid || isAdmin()); }
+    match /storageRequests/{requestId} { allow read, create: if signedIn() && (request.resource.data.farmerId == request.auth.uid || resource.data.farmerId == request.auth.uid || isAdmin()); }
+    match /notifications/{notificationId} { allow read, update: if signedIn() && (resource.data.farmerId == request.auth.uid || isAdmin()); allow create: if signedIn(); }
+    match /serviceRequests/{requestId} { allow read, update: if signedIn() && (resource.data.farmerId == request.auth.uid || isAdmin()); allow create: if signedIn() && request.resource.data.farmerId == request.auth.uid; }
+    match /assistantChats/{chatId} { allow read, update, delete: if signedIn() && (resource.data.farmerId == request.auth.uid || isAdmin()); allow create: if signedIn() && request.resource.data.farmerId == request.auth.uid; }
+    match /supportTickets/{ticketId} { allow read, update: if signedIn() && (resource.data.userId == request.auth.uid || isAdmin()); allow create: if signedIn() && request.resource.data.userId == request.auth.uid; }
+    match /feedback/{feedbackId} { allow read: if signedIn() && (resource.data.userId == request.auth.uid || isAdmin()); allow create: if signedIn() && request.resource.data.userId == request.auth.uid; }
+    match /partnershipRequests/{requestId} { allow create: if signedIn() && request.resource.data.userId == request.auth.uid; allow read, update: if isAdmin(); }
+  }
+}

@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AgriOne — Smart Farming Platform for Farmers</title>
+    <meta name="description" content="AgriOne connects farmers with AI-assisted crop insights, weather intelligence, market information and essential farm services." />
+    <meta property="og:title" content="AgriOne — Smart Farming Platform for Farmers" />
+    <meta property="og:description" content="AI-assisted crop insights, weather intelligence, market information and essential farm services." />
+    <meta property="og:type" content="website" />
+    <link rel="manifest" href="../manifest.json" />
+    <link rel="icon" href="../assets/icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../style.css/style.css" />
+</head>
+<body>
+    <header class="topbar">
+        <div class="container navbar">
+            <div class="logo">
+                <span class="logo-mark">🌾</span>
+                AgriOne
+            </div>
+            <div class="global-search" role="search">
+                <label class="visually-hidden" for="globalSearch">Search AgriOne demo content</label>
+                <input id="globalSearch" type="search" placeholder="Search crops, tools, services..." />
+                <div class="search-results hidden" id="searchResults" aria-live="polite"></div>
+            </div>
+            <nav class="nav-links" aria-label="Main Navigation">
+                <a href="#home">Home</a>
+                <a href="#dashboard">Dashboard</a>
+                <a href="#disease">Disease Detection</a>
+                <a href="#market">Market</a>
+                <a href="#market-intelligence">Market Intelligence</a>
+                <a href="#farm-services">Farm Services</a>
+                <a href="#ai-assistant">AI Assistant</a>
+                <a href="#language-settings">Language Settings</a>
+                <a href="#learning-center">Learning</a>
+                <a href="#help-support">Support</a>
+                <a href="#farmer-marketplace">Marketplace</a>
+                <a href="#services">Services</a>
+                <a href="#about">About</a>
+                <button class="notification-button" id="notificationButton" type="button" aria-label="Open notifications">🔔<span class="notification-badge">6</span></button>
+                <button class="nav-button" id="loginButton" type="button">Login</button>
+            </nav>
+            <label class="language-control"><span id="languageLabel">🌐 Language</span><select id="languageSelector" aria-label="Language"></select></label>
+                <span class="firebase-mode-indicator" aria-live="polite">Demo Mode — Firebase backend is not connected.</span>
+                <span class="offline-indicator hidden" id="offlineIndicator" aria-live="polite">You are offline. Some features may be temporarily unavailable.</span>
+                <button class="install-app-button hidden" id="installAppButton" type="button">Install AgriOne</button>
+        </div>
+    </header>
+
+    <div class="auth-overlay hidden" id="authOverlay" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+        <div class="auth-card">
+            <button class="modal-close" id="closeAuthButton" type="button" aria-label="Close authentication window">×</button>
+            <div class="auth-brand"><span class="logo-mark">🌾</span><strong>AgriOne</strong></div>
+
+            <div class="auth-view" id="loginView">
+                <span class="eyebrow">Farmer access</span>
+                <h2 id="authTitle">Welcome back</h2>
+                <p class="auth-copy">Sign in to manage your crops, marketplace listings, and farm insights.</p>
+                <form id="loginForm" class="auth-form">
+                    <div class="field">
+                        <label for="loginIdentity">Mobile Number / Email</label>
+                        <input id="loginIdentity" type="text" placeholder="Enter mobile number or email" required />
+                    </div>
+                    <div class="field">
+                        <label for="loginPassword">Password</label>
+                        <input id="loginPassword" type="password" placeholder="Enter password" required />
+                    </div>
+                    <button class="primary-btn auth-submit" type="submit">Login</button>
+                </form>
+                <div class="auth-links">
+                    <button type="button" data-auth-view="signup">Create New Account</button>
+                    <button type="button" data-auth-view="forgot">Forgot Password</button>
+                </div>
+                <button class="demo-farmer-btn" id="demoFarmerButton" type="button">Continue as Demo Farmer</button>
+                <p class="auth-message hidden" id="loginMessage"></p>
+            </div>
+
+            <div class="auth-view hidden" id="signupView">
+                <span class="eyebrow">New farmer profile</span>
+                <h2>Create your account</h2>
+                <p class="auth-copy">Set up your demo farmer profile to unlock the AgriOne dashboard.</p>
+                <form id="signupForm" class="auth-form">
+                    <div class="field">
+                        <label for="signupName">Full Name</label>
+                        <input id="signupName" type="text" placeholder="Enter your full name" required />
+                    </div>
+                    <div class="field">
+                        <label for="signupMobile">Mobile Number</label>
+                        <input id="signupMobile" type="tel" placeholder="Enter mobile number" required />
+                    </div>
+                    <div class="field">
+                        <label for="signupEmail">Email</label>
+                        <input id="signupEmail" type="email" placeholder="you@example.com" required />
+                    </div>
+                    <div class="field">
+                        <label for="signupPassword">Password</label>
+                        <input id="signupPassword" type="password" minlength="6" placeholder="At least 6 characters" required />
+                    </div>
+                    <div class="field">
+                        <label for="signupConfirmPassword">Confirm Password</label>
+                        <input id="signupConfirmPassword" type="password" minlength="6" placeholder="Re-enter password" required />
+                    </div>
+                    <div class="field">
+                        <label for="signupVillage">Village</label>
+                        <input id="signupVillage" type="text" placeholder="Village" required />
+                    </div>
+                    <div class="field">
+                        <label for="signupDistrict">District</label>
+                        <input id="signupDistrict" type="text" placeholder="District" required />
+                    </div>
+                    <div class="field">
+                        <label for="signupState">State</label>
+                        <input id="signupState" type="text" placeholder="State" required />
+                    </div>
+                    <div class="field">
+                        <label for="signupMainCrop">Main Crop</label>
+                        <input id="signupMainCrop" type="text" placeholder="e.g. Paddy" required />
+                    </div>
+                    <div class="field">
+                        <label for="signupFarmSize">Farm Size</label>
+                        <input id="signupFarmSize" type="text" placeholder="e.g. 4 acres" required />
+                    </div>
+                    <button class="primary-btn auth-submit" type="submit">Create Account</button>
+                </form>
+                <button class="text-button" type="button" data-auth-view="login">Already have an account? Login</button>
+                <p class="auth-message hidden" id="signupMessage"></p>
+            </div>
+
+            <div class="auth-view hidden" id="forgotView">
+                <span class="eyebrow">Account recovery</span>
+                <h2>Reset your password</h2>
+                <p class="auth-copy">Enter your mobile number or email and we’ll simulate a reset link for this prototype.</p>
+                <form id="forgotForm" class="auth-form">
+                    <div class="field">
+                        <label for="forgotIdentity">Mobile Number / Email</label>
+                        <input id="forgotIdentity" type="text" placeholder="Enter mobile number or email" required />
+                    </div>
+                    <button class="primary-btn auth-submit" type="submit">Send Reset Link</button>
+                </form>
+                <button class="text-button" type="button" data-auth-view="login">Back to Login</button>
+                <p class="auth-message hidden" id="forgotMessage"></p>
+            </div>
+
+            <div class="auth-view hidden" id="profileView">
+                <span class="eyebrow">Farmer profile</span>
+                <h2 class="auth-user-name">Ramesh Kumar</h2>
+                <p class="auth-copy">Your AgriOne demo profile and account snapshot.</p>
+                <div class="profile-summary">
+                    <div class="profile-avatar">👨‍🌾</div>
+                    <div><strong>Demo Farmer</strong><span>Member since 2026</span></div>
+                </div>
+                <div class="profile-details">
+                    <div><span>Farm location</span><strong>Guntur, Andhra Pradesh</strong></div>
+                    <div><span>Primary crop</span><strong>Paddy</strong></div>
+                    <div><span>Listings</span><strong>4 active crops</strong></div>
+                </div>
+                <button class="secondary-btn auth-submit" type="button" data-auth-view="login">Switch Account</button>
+                <button class="text-button" id="logoutButton" type="button">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="language-onboarding hidden" id="languageOnboarding" role="dialog" aria-modal="true" aria-labelledby="onboardingTitle">
+        <div class="language-onboarding-card"><span class="eyebrow">AgriOne</span><h2 id="onboardingTitle">Welcome to AgriOne</h2><p id="onboardingCopy">Select your preferred language.</p><div class="onboarding-languages" id="onboardingLanguages"></div></div>
+    </div>
+
+    <aside class="notification-panel hidden" id="notificationPanel" aria-labelledby="notificationTitle">
+        <div class="panel-header">
+            <h3 id="notificationTitle">Notifications</h3>
+            <button class="panel-close" id="closeNotificationButton" type="button" aria-label="Close notifications">×</button>
+        </div>
+        <p class="demo-note">Prototype alerts and updates</p>
+        <div class="notification-list">
+            <div class="notification-item"><span class="notification-icon weather-notice">☔</span><div><strong>Weather alert</strong><p>Rain expected this evening near your farm.</p><small>10 min ago</small></div></div>
+            <div class="notification-item"><span class="notification-icon market-notice">📈</span><div><strong>Market price change</strong><p>Tomato prices are up 3.1% in Bengaluru.</p><small>35 min ago</small></div></div>
+            <div class="notification-item"><span class="notification-icon buyer-notice">🤝</span><div><strong>Buyer enquiry</strong><p>Ravi Kumar asked about your tomato lot.</p><small>1 hr ago</small></div></div>
+            <div class="notification-item"><span class="notification-icon order-notice">📦</span><div><strong>Product order update</strong><p>Your demo CropShield order is packed.</p><small>2 hrs ago</small></div></div>
+            <div class="notification-item"><span class="notification-icon equipment-notice">🚜</span><div><strong>Equipment request</strong><p>Tractor availability confirmed for Friday.</p><small>Yesterday</small></div></div>
+            <div class="notification-item"><span class="notification-icon soil-notice">🧪</span><div><strong>Soil testing update</strong><p>Your sample report is ready for review.</p><small>Yesterday</small></div></div>
+        </div>
+    </aside>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="container hero-inner">
+                <div class="hero-copy">
+                    <p class="hero-tagline" id="heroTagline">AgriOne — Smart Farming for Every Farmer.</p>
+                    <h1>Smart Farming.<br /><span>Better Future.</span></h1>
+                    <p>
+                        AgriOne helps farmers improve yields, detect crop issues faster,
+                        track weather conditions, sell produce confidently, and access
+                        essential agricultural services through one simple platform.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#dashboard" class="primary-btn">Explore Dashboard</a>
+                        <a href="#disease" class="secondary-btn">Try Disease Demo</a>
+                    </div>
+                    <div class="hero-metrics">
+                        <div class="metric">
+                            <strong>28%</strong>
+                            <span>Yield Improvement</span>
+                        </div>
+                        <div class="metric">
+                            <strong>4.8/5</strong>
+                            <span>Farmer Trust</span>
+                        </div>
+                        <div class="metric">
+                            <strong>24/7</strong>
+                            <span>Field Support</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-visual" aria-label="Agricultural illustration">
+                    <div class="visual-orb">
+                        <div class="visual-emoji">🌱</div>
+                    </div>
+                    <div class="floating-card card-left">
+                        <strong>Live Weather</strong>
+                        <span>24°C • 78% humidity</span>
+                    </div>
+                    <div class="floating-card card-right">
+                        <strong>Market Pulse</strong>
+                        <span>Paddy +7.4% this week</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section dashboard-shell" id="dashboard">
+            <div class="container">
+                <div class="dashboard-header">
+                    <div class="dashboard-brand">
+                        <div class="logo">
+                            <span class="logo-mark">🌾</span>
+                            AgriOne
+                        </div>
+                    </div>
+
+                    <div class="dashboard-title-wrap">
+                        <p class="dashboard-label">Farmer Dashboard</p>
+                        <h2>Welcome back, Farmer!</h2>
+                    </div>
+
+                    <div class="dashboard-actions">
+                        <nav class="dashboard-nav" aria-label="Dashboard Navigation">
+                            <a href="#home">Home</a>
+                            <a href="#disease">Disease</a>
+                            <a href="#market">Market</a>
+                            <a href="#market-intelligence">Intelligence</a>
+                            <a href="#farm-services">Farm Services</a>
+                            <a href="#farmer-marketplace">Marketplace</a>
+                            <a href="#services">Services</a>
+                        </nav>
+                        <button class="profile-button" id="profileButton" type="button" aria-label="Profile">👨‍🌾</button>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <button class="quick-card" type="button" data-target="#disease">
+                        <span class="quick-icon">🤖</span>
+                        <strong>AI Disease Detection</strong>
+                        <small>Scan crop health</small>
+                    </button>
+                    <button class="quick-card" type="button" data-target="#farm-weather">
+                        <span class="quick-icon">🌦️</span>
+                        <strong>Weather &amp; Alerts</strong>
+                        <small>Sample demo data</small>
+                    </button>
+                    <button class="quick-card" type="button" data-target="#nearby-services">
+                        <span class="quick-icon">📍</span>
+                        <strong>Nearby Services</strong>
+                        <small>Find buyers, equipment, soil testing and storage near you.</small>
+                    </button>
+                    <button class="quick-card" type="button" data-target="#market-intelligence">
+                        <span class="quick-icon">💰</span>
+                        <strong>Market Intelligence</strong>
+                        <small>Compare prices and estimate your farm earnings.</small>
+                    </button>
+                    <button class="quick-card" type="button" data-target="#ai-assistant">
+                        <span class="quick-icon">🧠</span>
+                        <strong>AgriOne AI Assistant</strong>
+                        <small>Ask questions about crops, weather, markets and farm services.</small>
+                    </button>
+                    <button class="quick-card" type="button" data-target="#market">
+                        <span class="quick-icon">📊</span>
+                        <strong>Market Prices</strong>
+                        <small>Demo crop rates</small>
+                    </button>
+                    <button class="quick-card" type="button" data-target="#dashboard-sell">
+                        <span class="quick-icon">🌾</span>
+                        <strong>Sell Your Crop</strong>
+                        <small>List product now</small>
+                    </button>
+                    <button class="quick-card" type="button" data-target="#services">
+                        <span class="quick-icon">🚜</span>
+                        <strong>Rent Equipment</strong>
+                        <small>Book equipment for your farm.</small>
+                    </button>
+                    <button class="quick-card" type="button" data-target="#farm-services">
+                        <span class="quick-icon">🧪</span>
+                        <strong>Test Soil</strong>
+                        <small>Request a prototype soil test.</small>
+                    </button>
+                    <button class="quick-card" type="button" data-target="#farm-services">
+                        <span class="quick-icon">📦</span>
+                        <strong>Find Storage</strong>
+                        <small>Explore prototype storage options.</small>
+                    </button>
+                    <button class="quick-card" type="button" data-target="#about">
+                        <span class="quick-icon">📚</span>
+                        <strong>Farming Information</strong>
+                        <small>Learn &amp; grow</small>
+                    </button>
+                </div>
+
+                <div class="dashboard-grid-main">
+                    <div class="weather-panel panel-card" id="weather-panel">
+                        <div class="panel-header">
+                            <h3>Weather &amp; Alerts</h3>
+                            <span class="demo-pill" id="dashboardWeatherMode">Demo data</span>
+                        </div>
+                        <div class="weather-summary">
+                            <div>
+                                <p class="label">Today</p>
+                                <div class="temp-value" id="dashboardTemperature">28°C</div>
+                            </div>
+                            <div class="weather-icon" id="dashboardWeatherIcon">🌤️</div>
+                        </div>
+                        <div class="weather-stats">
+                            <div class="mini-stat">
+                                <span>Humidity</span>
+                                <strong id="dashboardHumidity">78%</strong>
+                            </div>
+                            <div class="mini-stat">
+                                <span>Rain</span>
+                                <strong id="dashboardRain">32%</strong>
+                            </div>
+                            <div class="mini-stat">
+                                <span>Wind</span>
+                                <strong id="dashboardWind">12 km/h</strong>
+                            </div>
+                            <div class="mini-stat">
+                                <span>Advisory</span>
+                                <strong id="dashboardAdvisory">Monitor conditions</strong>
+                            </div>
+                        </div>
+                        <div class="alert-box" id="dashboardAlert">Prototype Advisory: Monitor conditions before field work.</div>
+                        <button class="secondary-btn weather-widget-link" type="button" data-target="#farm-weather">View Full Weather</button>
+                    </div>
+
+                    <div class="market-panel panel-card" id="market-panel">
+                        <div class="panel-header">
+                            <h3>Market Prices</h3>
+                            <span class="demo-pill">Demo market data</span>
+                        </div>
+                        <table class="price-table">
+                            <thead>
+                                <tr>
+                                    <th>Crop</th>
+                                    <th>Price</th>
+                                    <th>Trend</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Paddy</td>
+                                    <td>₹2,020/Q</td>
+                                    <td class="trend up">▲ +7.4%</td>
+                                    <td><button class="mini-btn" type="button">View Details</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Tomato</td>
+                                    <td>₹1,480/Q</td>
+                                    <td class="trend up">▲ +3.1%</td>
+                                    <td><button class="mini-btn" type="button">View Details</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Chilli</td>
+                                    <td>₹3,860/Q</td>
+                                    <td class="trend up">▲ +4.8%</td>
+                                    <td><button class="mini-btn" type="button">View Details</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Maize</td>
+                                    <td>₹1,760/Q</td>
+                                    <td class="trend down">▼ -1.2%</td>
+                                    <td><button class="mini-btn" type="button">View Details</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Groundnut</td>
+                                    <td>₹4,640/Q</td>
+                                    <td class="trend up">▲ +6.5%</td>
+                                    <td><button class="mini-btn" type="button">View Details</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="top-market-insight"><span>Prototype Insight · Top Market Insight</span><strong id="topMarketInsight">Compare demo prices before planning a sale.</strong></div>
+                    </div>
+                </div>
+
+                <div class="dashboard-lower-grid">
+                    <div class="panel-card sell-panel" id="dashboard-sell">
+                        <div class="panel-header">
+                            <h3>Sell Crop</h3>
+                            <span class="demo-pill">Prototype listing</span>
+                        </div>
+
+                        <form id="dashboardSellForm">
+                            <div class="field-grid">
+                                <div class="field">
+                                    <label for="sellCropName">Crop name</label>
+                                    <input id="sellCropName" type="text" placeholder="e.g. Paddy" required />
+                                </div>
+                                <div class="field">
+                                    <label for="sellQuantity">Quantity</label>
+                                    <input id="sellQuantity" type="text" placeholder="e.g. 250 kg" required />
+                                </div>
+                                <div class="field">
+                                    <label for="sellPrice">Expected price</label>
+                                    <input id="sellPrice" type="text" placeholder="₹ per quintal" required />
+                                </div>
+                                <div class="field">
+                                    <label for="sellLocation">Location</label>
+                                    <input id="sellLocation" type="text" placeholder="Village / city" required />
+                                </div>
+                                <div class="field full-width">
+                                    <label for="sellContact">Contact</label>
+                                    <input id="sellContact" type="tel" placeholder="Phone or WhatsApp" required />
+                                </div>
+                            </div>
+                            <button class="primary-btn sell-submit" type="submit">Post Crop</button>
+                        </form>
+                    </div>
+
+                    <div class="panel-card storage-panel" id="storage">
+                        <div class="panel-header">
+                            <h3>Storage Snapshot</h3>
+                            <span class="demo-pill">Plan ahead</span>
+                        </div>
+                        <div class="storage-list">
+                            <div class="storage-item">
+                                <span>Warehouse availability</span>
+                                <strong>72%</strong>
+                            </div>
+                            <div class="storage-item">
+                                <span>Cold storage status</span>
+                                <strong>Available</strong>
+                            </div>
+                            <div class="storage-item">
+                                <span>Next collection</span>
+                                <strong>3 days</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insights-card panel-card">
+                    <div class="panel-header"><div><span class="eyebrow">Prototype / demo insights</span><h3>Today's Farm Insights</h3></div><span class="demo-pill">Sample data</span></div>
+                    <div class="insights-grid"><div><span>Weather condition</span><strong>Partly cloudy, 28°C</strong></div><div><span>Crop health reminder</span><strong>Check tomato leaves for spots</strong></div><div><span>Market opportunity</span><strong>Tomato prices rising 3.1%</strong></div><div><span>Upcoming task</span><strong>Review soil report tomorrow</strong></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section disease-section" id="disease">
+            <div class="container">
+                <div class="disease-header">
+                    <span class="eyebrow">Prototype field support</span>
+                    <h2 class="section-title">AI Crop Disease Detection</h2>
+                    <p class="section-subtitle">
+                        Upload a clear crop/leaf image and get an AI-assisted preliminary assessment.
+                    </p>
+                    <span class="demo-pill disease-mode-badge">DEMO MODE</span>
+                    <p class="demo-mode-copy">This prototype uses demo AI responses. Real crop disease detection can be connected to a trained computer-vision model/API in the production version.</p>
+                </div>
+
+                <div class="disease-layout">
+                    <div class="diagnostic-panel">
+                        <div class="upload-box" id="diseaseDropZone">
+                            <input type="file" id="cropImage" accept=".jpg,.jpeg,.png,image/jpeg,image/png" />
+                            <label for="cropImage">Upload Image</label>
+                            <p>Drag &amp; drop a clear leaf image here, or choose a file.</p>
+                            <small>Supported formats: JPG, JPEG, PNG · Max 8 MB</small>
+                        </div>
+
+                        <div class="preview-box" id="previewBox">
+                            <img id="previewImage" src="" alt="Selected crop preview" />
+                            <button class="remove-image-btn hidden" id="removeImageButton" type="button">Remove image</button>
+                        </div>
+
+                        <button class="action-btn detect-btn" id="detectBtn" type="button">
+                            Analyze Crop
+                        </button>
+                        <div class="analysis-loading hidden" id="analysisLoading"><span class="loading-spinner"></span><span>Analyzing image with demo service...</span></div>
+                        <p class="disease-error hidden" id="diseaseError" role="alert"></p>
+                    </div>
+
+                    <div class="result-panel">
+                        <div class="result-badge">Prototype AI Result — Not a verified agricultural diagnosis.</div>
+                        <div id="resultContent" class="result-content hidden">
+                            <div class="result-grid">
+                                <div class="result-item">
+                                    <span>Crop</span>
+                                    <strong id="cropResult">Tomato</strong>
+                                </div>
+                                <div class="result-item">
+                                    <span>Possible Issue</span>
+                                    <strong id="diseaseName">Early Blight</strong>
+                                </div>
+                                <div class="result-item">
+                                    <span>Prototype Confidence</span>
+                                    <strong id="confidenceValue">94%</strong>
+                                </div>
+                            </div>
+
+                            <div class="result-block">
+                                <h4>Symptoms</h4>
+                                <ul id="symptomsValue"><li>Brown/dark spots on leaves</li><li>Yellowing around affected areas</li><li>Leaf damage progression</li></ul>
+                            </div>
+
+                            <div class="result-block">
+                                <h4>General treatment guidance</h4>
+                                <ul id="treatmentValue"><li>Remove severely affected leaves</li><li>Maintain proper field hygiene</li><li>Avoid unnecessary overhead watering</li><li>Consult a qualified agricultural expert before applying treatment</li></ul>
+                            </div>
+
+                            <div class="result-block">
+                                <h4>Prevention tips</h4>
+                                <p id="preventionValue">Avoid overhead watering, rotate crops in the next season, and maintain proper spacing to reduce moisture buildup.</p>
+                            </div>
+
+                            <div class="weather-disease-link">
+                                <span class="eyebrow">Prototype connection</span>
+                                <h4>Weather conditions that may affect this crop</h4>
+                                <div class="linked-weather-stats"><span>Humidity <strong>78%</strong></span><span>Temperature <strong>28°C</strong></span><span>Rain probability <strong>32%</strong></span></div>
+                                <h4>Prototype farming advisory</h4>
+                                <p>Warm, humid conditions may increase fungal pressure. Use local expert guidance before taking action.</p>
+                            </div>
+
+                            <div class="result-actions"><button class="primary-btn" id="treatmentGuidanceButton" type="button">View Treatment Guidance</button><button class="secondary-btn" id="recommendedProductsButton" type="button">Recommended Products</button><button class="secondary-btn" id="saveDiseaseReportButton" type="button">Save Report</button><button class="secondary-btn" id="analyzeAnotherButton" type="button">Analyze Another Image</button></div>
+                            <p class="result-disclaimer">Always confirm the diagnosis and treatment with a qualified agricultural expert and follow the product label.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-section">
+                    <div class="section-header product-header">
+                        <div>
+                            <h3>Recommended Products</h3>
+                            <p class="panel-caption">Prototype / Sample Product. No product is universally suitable; confirm choices with an agricultural expert.</p>
+                        </div>
+                    </div>
+
+                    <div class="product-grid">
+                        <article class="product-card-demo">
+                            <div class="product-tag">Leaf Care</div>
+                            <h4>AgriGuard Fungicide</h4>
+                            <p>General crop protection spray for fungal leaf issues.</p>
+                            <div class="product-price">₹420</div>
+                            <div class="product-actions">
+                                <button type="button" class="secondary-btn tiny-btn" data-product="AgriGuard Fungicide">View Product</button>
+                                <button type="button" class="primary-btn tiny-btn" data-product="AgriGuard Fungicide">Order Demo</button>
+                            </div>
+                        </article>
+
+                        <article class="product-card-demo">
+                            <div class="product-tag">Soil Support</div>
+                            <h4>RootBoost Plus</h4>
+                            <p>Supports healthier root zone and stronger plant recovery.</p>
+                            <div class="product-price">₹560</div>
+                            <div class="product-actions">
+                                <button type="button" class="secondary-btn tiny-btn" data-product="RootBoost Plus">View Product</button>
+                                <button type="button" class="primary-btn tiny-btn" data-product="RootBoost Plus">Order Demo</button>
+                            </div>
+                        </article>
+
+                        <article class="product-card-demo">
+                            <div class="product-tag">Field Protection</div>
+                            <h4>CropShield Spray</h4>
+                            <p>Sample foliar treatment concept for leaf and canopy protection.</p>
+                            <div class="product-price">₹690</div>
+                            <div class="product-actions">
+                                <button type="button" class="secondary-btn tiny-btn" data-product="CropShield Spray">View Product</button>
+                                <button type="button" class="primary-btn tiny-btn" data-product="CropShield Spray">Order Demo</button>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+
+                <div class="order-demo-panel">
+                    <h3>Order Demo</h3>
+                    <form id="demoOrderForm">
+                        <div class="order-grid">
+                            <div class="field">
+                                <label for="demoFarmerName">Farmer name</label>
+                                <input id="demoFarmerName" type="text" placeholder="Enter farmer name" required />
+                            </div>
+                            <div class="field">
+                                <label for="demoPhoneNumber">Phone number</label>
+                                <input id="demoPhoneNumber" type="tel" placeholder="Enter phone number" required />
+                            </div>
+                            <div class="field full-width">
+                                <label for="demoDeliveryAddress">Address</label>
+                                <input id="demoDeliveryAddress" type="text" placeholder="Enter delivery address" required />
+                            </div>
+                            <div class="field">
+                                <label for="demoOrderQuantity">Quantity</label>
+                                <input id="demoOrderQuantity" type="number" min="1" placeholder="e.g. 2" required />
+                            </div>
+                        </div>
+                        <button type="submit" class="primary-btn demo-order-btn">Place Demo Order</button>
+                        <p id="orderMessage" class="success-message hidden">Demo order placed successfully.</p>
+                    </form>
+                </div>
+
+                <div class="disclaimer-box">
+                    Disclaimer: Actual treatment should be confirmed with a qualified agricultural expert and the product label instructions before applying any agricultural materials.
+                </div>
+                <div class="disease-workflow"><span class="eyebrow">Farmer workflow</span><div><span>Upload Crop Image</span><b>↓</b><span>AI-Assisted Analysis</span><b>↓</b><span>Possible Disease Identification</span><b>↓</b><span>Treatment Guidance</span><b>↓</b><span>Recommended Products</span><b>↓</b><span>Order Demo</span><b>↓</b><span>Track Order</span></div></div>
+                <div class="disease-history panel-card"><div class="section-header"><div><span class="eyebrow">Local demo storage</span><h3>My Disease Reports</h3></div><span class="demo-pill">DEMO MODE</span></div><p class="panel-caption">Reports are stored in this browser only until a farmer account and backend are connected.</p><div class="report-list" id="diseaseReportList"><div class="empty-report-state" id="emptyReportState">No saved reports yet. Analyze an image and save the report to see it here.</div></div></div>
+            </div>
+        </section>
+
+        <section class="section admin-disease-section" id="admin-disease-reports"><div class="container"><div class="section-header"><div><span class="eyebrow">Admin Panel · Prototype</span><h2 class="section-title" style="text-align:left; margin:7px 0 5px;">Disease Reports</h2><p class="section-subtitle" style="text-align:left; margin:0;">Demo reporting for monitoring crop issues across the platform.</p></div><span class="demo-pill">DEMO DATA</span></div><div class="admin-report-grid"><div><span>Total reports</span><strong id="adminReportTotal">12</strong></div><div><span>Most common issue</span><strong>Early Blight</strong></div><div><span>Top reported crop</span><strong>Tomato</strong></div><div><span>Report status</span><strong>Prototype review</strong></div></div><div class="admin-recent-reports panel-card"><h3>Recent reports</h3><div id="adminRecentReports"><p>DR-1048 · Tomato · Early Blight · Demo report</p><p>DR-1047 · Paddy · Leaf spot · Demo report</p><p>DR-1046 · Chilli · Mite damage · Demo report</p></div></div></div></section>
+        <section class="section admin-service-section" id="admin-service-requests"><div class="container"><div class="section-header"><div><span class="eyebrow">Admin Panel · Prototype</span><h2 class="section-title" style="text-align:left; margin:7px 0 5px;">Service Requests</h2><p class="section-subtitle" style="text-align:left; margin:0;">Demo oversight for equipment, soil testing, storage and buyer enquiries.</p></div><span class="demo-pill">DEMO DATA</span></div><div class="admin-report-grid service-request-counts"><div><span>Equipment requests</span><strong>3</strong></div><div><span>Soil testing requests</span><strong>2</strong></div><div><span>Storage requests</span><strong>1</strong></div><div><span>Buyer enquiries</span><strong>4</strong></div></div><div class="admin-recent-reports panel-card"><h3>Recent service requests</h3><div><p>SR-1048 · Equipment Rental · Requested</p><p>SR-1047 · Soil Testing · Requested</p><p>SR-1046 · Storage · Demo request</p></div></div></div></section>
+        <section class="section admin-market-section" id="admin-market-data"><div class="container"><div class="section-header"><div><span class="eyebrow">Admin Panel · Prototype</span><h2 class="section-title" style="text-align:left; margin:7px 0 5px;">Market Data Management</h2><p class="section-subtitle" style="text-align:left; margin:0;">Prototype Data until a verified live source is connected.</p></div><span class="demo-pill">Prototype Data</span></div><div class="admin-report-grid"><div><span>Crop records</span><strong>5</strong></div><div><span>Last updated</span><strong>Today, 09:30</strong></div><div><span>Data mode</span><strong>Demo</strong></div><div><span>Most viewed crops</span><strong>Tomato, Paddy</strong></div><div><span>Watchlist count</span><strong id="adminWatchlistCount">0</strong></div><div><span>Price alert count</span><strong id="adminPriceAlertCount">0</strong></div></div></div></section>
+        <section class="section admin-support-section" id="admin-support"><div class="container"><div class="section-header"><div><span class="eyebrow">Admin Panel · Prototype</span><h2 class="section-title" style="text-align:left; margin:7px 0 5px;">Support Management</h2><p class="section-subtitle" style="text-align:left; margin:0;">Review support tickets, feedback, feature requests and reported problems.</p></div><span class="demo-pill">Prototype Data</span></div><div class="admin-report-grid"><div><span>Support Tickets</span><strong>0</strong></div><div><span>Feedback</span><strong>0</strong></div><div><span>Feature Requests</span><strong>0</strong></div><div><span>Reported Problems</span><strong>0</strong></div></div><div class="admin-recent-reports panel-card"><h3>Admin actions</h3><p>View · Update status · Add internal note · Resolve</p><p class="panel-caption">Admin access is protected by the Firebase admin custom claim.</p></div></div></section>
+
+        <section class="section smart-weather-section" id="farm-weather">
+            <div class="container">
+                <div class="section-header weather-heading">
+                    <div><span class="eyebrow">Smart farm monitoring</span><h2 class="section-title" style="text-align:left; margin-top: 8px; margin-bottom: 6px;">Farm Weather</h2><p class="section-subtitle" style="text-align:left; margin:0;">Weather Intelligence for Better Farming</p><p class="panel-caption">Get weather insights and farming alerts to plan irrigation, spraying and field activities.</p></div>
+                    <div><span class="demo-pill" id="weatherModeBadge">Demo Weather Data</span><p class="demo-note" id="weatherStatus" aria-live="polite">Demo Mode — Weather information shown here is sample data. Connect a weather API for live information.</p></div>
+                </div>
+
+                <form class="location-selector" id="locationForm">
+                    <div class="field"><label for="weatherState">State</label><select id="weatherState"><option>Andhra Pradesh</option><option>Telangana</option><option>Maharashtra</option><option>Karnataka</option></select></div>
+                    <div class="field"><label for="weatherDistrict">District</label><input id="weatherDistrict" type="text" value="Guntur" required /></div>
+                    <div class="field"><label for="weatherVillage">Village</label><input id="weatherVillage" type="text" value="Nallapadu" required /></div>
+                    <button class="secondary-btn location-button" type="button" id="useLocationButton">📍 Use My Location</button>
+                    <button class="primary-btn location-button" type="submit">Update Weather</button>
+                </form>
+                <p class="panel-caption location-help">Use My Location requests one approximate browser location to improve weather results. AgriOne does not continuously track you.</p>
+
+                <div class="weather-dashboard-grid">
+                    <div class="current-weather-card panel-card"><div class="weather-summary"><div><p class="label" id="weatherDate">Today's date</p><strong class="big-temperature" id="weatherTemperature">28°C</strong><h3 id="weatherCondition">Partly cloudy</h3><p class="weather-location" id="weatherLocation">Nallapadu, Guntur, Andhra Pradesh</p></div><span class="weather-icon large-weather-icon" id="weatherIcon" aria-label="Weather condition">🌤️</span></div><div class="weather-stats four-stats"><div class="mini-stat"><span>Feels like</span><strong id="weatherFeelsLike">30°C</strong></div><div class="mini-stat"><span>Humidity</span><strong id="weatherHumidity">78%</strong></div><div class="mini-stat"><span>Wind speed</span><strong id="weatherWind">12 km/h</strong></div><div class="mini-stat"><span>Rain probability</span><strong id="weatherRain">32%</strong></div><div class="mini-stat"><span>Sunrise</span><strong id="weatherSunrise">06:02</strong></div><div class="mini-stat"><span>Sunset</span><strong id="weatherSunset">18:28</strong></div></div></div>
+                    <div class="forecast-card panel-card"><div class="panel-header"><h3>5-day forecast</h3><span class="demo-pill">Planning view</span></div><div class="forecast-list" id="forecastList"></div></div>
+                </div>
+
+                <div class="weather-subsection"><div class="section-header"><div><span class="eyebrow">Prototype recommendations</span><h2 class="section-title compact-title">Smart Farming Alerts</h2></div><span class="panel-caption">Planning suggestions only, not professional agricultural instructions.</span></div><div class="weather-alert-grid" id="weatherAlerts"></div></div>
+                <div class="weather-subsection"><div class="section-header"><div><span class="eyebrow">Field-ready summary</span><h2 class="section-title compact-title">Today's Farm Insights</h2></div></div><div class="insights-grid weather-insights" id="weatherInsights"></div></div>
+                <div class="weather-tools-grid">
+                    <div class="panel-card planner-card"><div class="panel-header"><div><span class="eyebrow">Planning suggestions only</span><h3>Plan Today's Farm Activities</h3></div></div><form id="activityForm" class="activity-form"><div class="field"><label for="activityType">Activity</label><select id="activityType"><option>Irrigation</option><option>Fertilizer application</option><option>Spraying</option><option>Sowing</option><option>Harvesting</option><option>Field inspection</option></select></div><div class="field"><label for="activityDate">Date</label><input id="activityDate" type="date" required /></div><button class="primary-btn" type="submit">Add to Plan</button></form><p class="planner-warning" id="plannerWarning" aria-live="polite"></p><div class="planned-activities" id="plannedActivities"></div></div>
+                    <div class="panel-card history-card"><div class="panel-header"><div><span class="eyebrow">Prototype Historical Data</span><h3>Weather Insights</h3></div><span class="demo-pill">Sample trend</span></div><div class="history-summary"><div><span>Average temperature</span><strong id="historyTemperature">27°C</strong></div><div><span>Rainfall trend</span><strong id="historyRainfall">Moderate</strong></div><div><span>Humidity trend</span><strong id="historyHumidity">Stable</strong></div><div><span>Rainy days</span><strong id="historyRainyDays">4</strong></div></div><div class="history-chart" id="historyChart" aria-label="Prototype rainfall trend chart"></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section nearby-services-section" id="nearby-services">
+            <div class="container">
+                <div class="section-header nearby-hero"><div><span class="eyebrow">Location &amp; services</span><h2 class="section-title" style="text-align:left; margin:8px 0 6px;">Nearby Agricultural Services</h2><p class="section-subtitle" style="text-align:left; margin:0;">Find Agricultural Services Near You</p><p class="panel-caption">Discover buyers, equipment, soil testing, storage and other farming services around your selected location.</p></div><div><span class="demo-pill">DEMO MODE</span><p class="demo-note">Service locations shown here are prototype data and are not verified real-world listings.</p></div></div>
+                <div class="location-header panel-card"><div><span class="eyebrow">📍 Current Farm Location</span><h3 id="nearbyLocationName">Nallapadu, Guntur, Andhra Pradesh</h3><p id="nearbyLocationCoords" class="panel-caption">Village · District · State</p></div><div class="location-actions"><button class="secondary-btn" id="nearbyUseLocation" type="button">📍 Use My Location</button><button class="primary-btn" id="nearbyChangeLocation" type="button">Change Location</button></div></div>
+                <div class="nearby-layout"><div class="demo-map panel-card"><div class="panel-header"><div><span class="eyebrow">Map preview</span><h3>Nearby service map</h3></div><span class="demo-pill">Demo Map</span></div><p>Demo Map — Connect a map provider for live location services.</p><div class="map-surface" id="mapSurface"><span class="map-pin selected-pin">📍</span><span class="map-pin service-pin pin-one">🚜</span><span class="map-pin service-pin pin-two">🧪</span><span class="map-pin service-pin pin-three">🌾</span><div class="map-controls"><button type="button" id="mapZoomIn" aria-label="Zoom in">+</button><button type="button" id="mapZoomOut" aria-label="Zoom out">−</button></div></div><div class="map-search"><label for="serviceLocationSearch">Location search</label><input id="serviceLocationSearch" type="search" placeholder="Search a village or district" /></div><p class="directions-note" id="directionsNote" aria-live="polite">Directions integration will be available when live map services are connected.</p></div>
+                    <div class="service-browser"><div class="service-filters panel-card"><div class="field"><label for="serviceSearch">Search nearby services</label><input id="serviceSearch" type="search" placeholder="Search buyers, labs, equipment..." /></div><div class="field"><label for="serviceCategory">Category</label><select id="serviceCategory"></select></div><div class="field"><label for="serviceDistance">Distance</label><select id="serviceDistance"><option value="all">Any distance</option><option value="10">Within 10 km</option><option value="25">Within 25 km</option></select></div><div class="field"><label for="serviceAvailability">Availability</label><select id="serviceAvailability"><option value="all">Any availability</option><option value="Available">Available</option><option value="Open today">Open today</option><option value="Appointments">Appointments</option></select></div><div class="field"><label for="serviceSort">Sort by</label><select id="serviceSort"><option value="nearest">Nearest</option><option value="relevant">Most relevant</option></select></div></div><div class="category-scroller" id="serviceCategories"></div><p class="service-error hidden" id="serviceError" role="alert"></p><div class="service-cards" id="serviceCards"></div><p class="empty-service hidden" id="emptyServices">No nearby services match your search. Try a wider distance or another category.</p></div></div>
+                <div class="nearby-special-grid"><div class="panel-card special-list"><div class="panel-header"><div><span class="eyebrow">Prototype Listings</span><h3>Nearby Crop Buyers</h3></div><span class="demo-pill">Demo Price</span></div><div id="buyerHighlights"></div></div><div class="panel-card special-list"><div class="panel-header"><div><span class="eyebrow">Prototype Listings</span><h3>Nearby Soil Testing</h3></div><span class="demo-pill">Demo Fee</span></div><div id="soilHighlights"></div></div><div class="panel-card special-list"><div class="panel-header"><div><span class="eyebrow">Prototype Listings</span><h3>Nearby Storage</h3></div><span class="demo-pill">Demo Data</span></div><div id="storageHighlights"></div></div></div>
+                <div class="panel-card request-history"><div class="panel-header"><div><span class="eyebrow">Farmer activity</span><h3>My Service Requests</h3></div><span class="demo-pill">Prototype history</span></div><div id="serviceRequestHistory"><p class="panel-caption">No service requests yet.</p></div></div>
+            </div>
+        </section>
+
+        <section class="section" id="weather">
+            <div class="container">
+                <h2 class="section-title">Weather &amp; Alerts</h2>
+                <p class="section-subtitle">Field-ready updates for timely agricultural decisions.</p>
+
+                <div class="weather-layout">
+                    <div class="weather-card">
+                        <div class="weather-head">
+                            <div>
+                                <span>Today</span>
+                                <div class="weather-temp">28°C</div>
+                            </div>
+                            <div class="weather-emoji" aria-label="sunny weather">☀️</div>
+                        </div>
+                        <div class="weather-info">
+                            <div class="weather-item">
+                                <span>Humidity</span>
+                                <strong>78%</strong>
+                            </div>
+                            <div class="weather-item">
+                                <span>Rain</span>
+                                <strong>32%</strong>
+                            </div>
+                            <div class="weather-item">
+                                <span>Wind</span>
+                                <strong>12 km/h</strong>
+                            </div>
+                            <div class="weather-item">
+                                <span>UV Index</span>
+                                <strong>6</strong>
+                            </div>
+                        </div>
+                        <div class="alert-box">Farming Alert: Light irrigation recommended this evening due to warm afternoon conditions.</div>
+                    </div>
+
+                    <div class="weather-card">
+                        <h3 style="margin-bottom: 10px; color: var(--green-800);">Regional weather overview</h3>
+                        <div class="market-grid" style="grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 18px;">
+                            <div class="market-card">
+                                <h3>Monsoon</h3>
+                                <div class="market-price">64%</div>
+                                <p class="market-meta">Likely rainfall next 3 days</p>
+                            </div>
+                            <div class="market-card">
+                                <h3>Soil moisture</h3>
+                                <div class="market-price">52%</div>
+                                <p class="market-meta">Healthy moisture balance</p>
+                            </div>
+                            <div class="market-card">
+                                <h3>Best sowing window</h3>
+                                <div class="market-price">3 days</div>
+                                <p class="market-meta">Recommended for paddy fields</p>
+                            </div>
+                            <div class="market-card">
+                                <h3>Field risk</h3>
+                                <div class="market-price">Low</div>
+                                <p class="market-meta">No major weather warning</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section marketplace-shell" id="market">
+            <div class="container">
+                <div class="marketplace-header">
+                    <div>
+                        <span class="eyebrow">Agri Marketplace</span>
+                        <h2 class="section-title" style="text-align:left; margin-top: 8px; margin-bottom: 6px;">Market Price Dashboard</h2>
+                    </div>
+                    <span class="demo-pill">Demo Market Data</span>
+                </div>
+
+                <div class="marketplace-grid">
+                    <article class="market-price-card">
+                        <div class="crop-topline">
+                            <span class="crop-label">Paddy</span>
+                            <span class="trend-pill up">↑ +7.4%</span>
+                        </div>
+                        <div class="price-line"><strong>₹2,020</strong><span>/ quintal</span></div>
+                        <p>Previous: ₹1,880</p>
+                        <small>Location: Kurnool Market</small>
+                        <button type="button" class="mini-btn">View Details</button>
+                    </article>
+
+                    <article class="market-price-card">
+                        <div class="crop-topline">
+                            <span class="crop-label">Tomato</span>
+                            <span class="trend-pill up">↑ +3.1%</span>
+                        </div>
+                        <div class="price-line"><strong>₹1,480</strong><span>/ quintal</span></div>
+                        <p>Previous: ₹1,430</p>
+                        <small>Location: Bengaluru Market</small>
+                        <button type="button" class="mini-btn">View Details</button>
+                    </article>
+
+                    <article class="market-price-card">
+                        <div class="crop-topline">
+                            <span class="crop-label">Chilli</span>
+                            <span class="trend-pill up">↑ +4.8%</span>
+                        </div>
+                        <div class="price-line"><strong>₹3,860</strong><span>/ quintal</span></div>
+                        <p>Previous: ₹3,680</p>
+                        <small>Location: Guntur Market</small>
+                        <button type="button" class="mini-btn">View Details</button>
+                    </article>
+
+                    <article class="market-price-card">
+                        <div class="crop-topline">
+                            <span class="crop-label">Maize</span>
+                            <span class="trend-pill down">↓ -1.2%</span>
+                        </div>
+                        <div class="price-line"><strong>₹1,760</strong><span>/ quintal</span></div>
+                        <p>Previous: ₹1,780</p>
+                        <small>Location: Nagpur Market</small>
+                        <button type="button" class="mini-btn">View Details</button>
+                    </article>
+
+                    <article class="market-price-card">
+                        <div class="crop-topline">
+                            <span class="crop-label">Groundnut</span>
+                            <span class="trend-pill up">↑ +6.5%</span>
+                        </div>
+                        <div class="price-line"><strong>₹4,640</strong><span>/ quintal</span></div>
+                        <p>Previous: ₹4,360</p>
+                        <small>Location: Anantapur Market</small>
+                        <button type="button" class="mini-btn">View Details</button>
+                    </article>
+
+                    <article class="market-price-card">
+                        <div class="crop-topline">
+                            <span class="crop-label">Cotton</span>
+                            <span class="trend-pill up">↑ +2.9%</span>
+                        </div>
+                        <div class="price-line"><strong>₹6,210</strong><span>/ quintal</span></div>
+                        <p>Previous: ₹6,030</p>
+                        <small>Location: Akola Market</small>
+                        <button type="button" class="mini-btn">View Details</button>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section market-form-shell" id="sell-market">
+            <div class="container">
+                <div class="market-form-layout">
+                    <div class="panel-card sell-crop-panel">
+                        <div class="panel-header">
+                            <h3>Sell Your Crop</h3>
+                            <span class="demo-pill">Farmer listing</span>
+                        </div>
+
+                        <form id="farmerSellForm">
+                            <div class="field-grid">
+                                <div class="field">
+                                    <label for="marketFarmerName">Farmer Name</label>
+                                    <input id="marketFarmerName" type="text" placeholder="Enter your name" required />
+                                </div>
+                                <div class="field">
+                                    <label for="marketCropName">Crop Name</label>
+                                    <input id="marketCropName" type="text" placeholder="e.g. Paddy" required />
+                                </div>
+                                <div class="field">
+                                    <label for="marketQuantity">Quantity in kg</label>
+                                    <input id="marketQuantity" type="number" min="1" placeholder="e.g. 250" required />
+                                </div>
+                                <div class="field">
+                                    <label for="marketPricePerKg">Expected Price per kg</label>
+                                    <input id="marketPricePerKg" type="number" min="1" step="0.01" placeholder="₹ per kg" required />
+                                </div>
+                                <div class="field">
+                                    <label for="marketLocation">Location</label>
+                                    <input id="marketLocation" type="text" placeholder="Village / city" required />
+                                </div>
+                                <div class="field">
+                                    <label for="marketContact">Contact Number</label>
+                                    <input id="marketContact" type="tel" placeholder="Phone number" required />
+                                </div>
+                                <div class="field full-width">
+                                    <label for="marketCropImage">Crop Image Upload</label>
+                                    <input id="marketCropImage" type="file" accept=".jpg,.jpeg,.png,image/jpeg,image/png" required />
+                                </div>
+                            </div>
+
+                            <div class="preview-box market-preview-box" id="marketPreviewBox">
+                                <img id="marketPreviewImage" src="" alt="Selected crop for sale preview" />
+                            </div>
+
+                            <button class="primary-btn sell-submit" type="submit">Post Crop for Sale</button>
+                            <p id="marketSuccessMessage" class="success-message hidden">Your crop has been successfully listed for buyers.</p>
+                        </form>
+                    </div>
+
+                    <div class="panel-card buyer-panel">
+                        <div class="panel-header">
+                            <h3>Buyer Marketplace</h3>
+                            <span class="demo-pill">Live demo listings</span>
+                        </div>
+
+                        <div class="buyer-listings" id="buyerListings">
+                            <article class="buyer-card">
+                                <div class="buyer-header">
+                                    <div class="buyer-avatar">🌾</div>
+                                    <div>
+                                        <h4>Ravi Kumar</h4>
+                                        <small>Guntur, Andhra Pradesh</small>
+                                    </div>
+                                </div>
+                                <div class="listing-meta">
+                                    <span>Tomato</span>
+                                    <span>200 kg</span>
+                                </div>
+                                <div class="listing-price">₹1,550 / kg</div>
+                                <p>Freshly harvested crop, suitable for local wholesale buyers.</p>
+                                <button class="secondary-btn full-width-btn" type="button">Contact Seller</button>
+                            </article>
+
+                            <article class="buyer-card">
+                                <div class="buyer-header">
+                                    <div class="buyer-avatar">🌱</div>
+                                    <div>
+                                        <h4>Sneha Patil</h4>
+                                        <small>Nashik, Maharashtra</small>
+                                    </div>
+                                </div>
+                                <div class="listing-meta">
+                                    <span>Paddy</span>
+                                    <span>400 kg</span>
+                                </div>
+                                <div class="listing-price">₹2,100 / quintal</div>
+                                <p>Well-conditioned paddy stock ready for dispatch in 2 days.</p>
+                                <button class="secondary-btn full-width-btn" type="button">Contact Seller</button>
+                            </article>
+
+                            <article class="buyer-card">
+                                <div class="buyer-header">
+                                    <div class="buyer-avatar">🌾</div>
+                                    <div>
+                                        <h4>Harish Yadav</h4>
+                                        <small>Akola, Maharashtra</small>
+                                    </div>
+                                </div>
+                                <div class="listing-meta">
+                                    <span>Cotton</span>
+                                    <span>300 kg</span>
+                                </div>
+                                <div class="listing-price">₹6,400 / quintal</div>
+                                <p>Good quality cotton lot for traders and processing buyers.</p>
+                                <button class="secondary-btn full-width-btn" type="button">Contact Seller</button>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section analytics-section" id="market-analytics">
+            <div class="container">
+                <div class="section-header"><div><span class="eyebrow">Demo Market Data</span><h2 class="section-title" style="text-align:left; margin-top: 8px; margin-bottom: 6px;">Market Analytics</h2><p class="section-subtitle" style="text-align:left; margin:0;">Compare sample prices across crops and nearby markets.</p></div><span class="demo-pill">Last updated: Today, 09:30</span></div>
+                <div class="market-filters"><div class="field"><label for="cropFilter">Crop</label><select id="cropFilter"><option value="all">All crops</option><option>Tomato</option><option>Paddy</option><option>Chilli</option><option>Maize</option><option>Groundnut</option><option>Cotton</option></select></div><div class="field"><label for="locationFilter">Location</label><select id="locationFilter"><option value="all">All locations</option><option>Guntur</option><option>Kurnool</option><option>Bengaluru</option><option>Nagpur</option><option>Anantapur</option><option>Akola</option></select></div><div class="field"><label for="marketFilter">Market</label><select id="marketFilter"><option value="all">All markets</option><option value="Bengaluru Market">Bengaluru Market</option><option value="Kurnool Market">Kurnool Market</option><option value="Guntur Market">Guntur Market</option><option value="Nagpur Market">Nagpur Market</option><option value="Anantapur Market">Anantapur Market</option><option value="Akola Market">Akola Market</option></select></div><button type="button" class="secondary-btn" id="resetMarketFilters">Reset filters</button></div>
+                <div class="analytics-layout"><div class="panel-card analytics-table-wrap"><div class="table-scroll"><table class="analytics-table"><thead><tr><th>Crop</th><th>Current</th><th>Previous</th><th>Change</th><th>Market location</th><th>Trend</th><th>Last updated</th></tr></thead><tbody id="analyticsTableBody"><tr data-crop="Tomato" data-location="Bengaluru" data-market="Bengaluru Market"><td>Tomato</td><td>₹1,480/Q</td><td>₹1,430/Q</td><td class="trend up">+3.1%</td><td>Bengaluru Market</td><td>↑ Rising</td><td>Today, 09:30</td></tr><tr data-crop="Paddy" data-location="Kurnool" data-market="Kurnool Market"><td>Paddy</td><td>₹2,020/Q</td><td>₹1,880/Q</td><td class="trend up">+7.4%</td><td>Kurnool Market</td><td>↑ Rising</td><td>Today, 09:30</td></tr><tr data-crop="Chilli" data-location="Guntur" data-market="Guntur Market"><td>Chilli</td><td>₹3,860/Q</td><td>₹3,680/Q</td><td class="trend up">+4.8%</td><td>Guntur Market</td><td>↑ Rising</td><td>Today, 09:30</td></tr><tr data-crop="Maize" data-location="Nagpur" data-market="Nagpur Market"><td>Maize</td><td>₹1,760/Q</td><td>₹1,780/Q</td><td class="trend down">-1.2%</td><td>Nagpur Market</td><td>↓ Softening</td><td>Today, 09:30</td></tr><tr data-crop="Groundnut" data-location="Anantapur" data-market="Anantapur Market"><td>Groundnut</td><td>₹4,640/Q</td><td>₹4,360/Q</td><td class="trend up">+6.5%</td><td>Anantapur Market</td><td>↑ Rising</td><td>Today, 09:30</td></tr><tr data-crop="Cotton" data-location="Akola" data-market="Akola Market"><td>Cotton</td><td>₹6,210/Q</td><td>₹6,030/Q</td><td class="trend up">+2.9%</td><td>Akola Market</td><td>↑ Rising</td><td>Today, 09:30</td></tr></tbody></table></div></div><div class="panel-card trend-chart-card"><div class="panel-header"><h3>Price trend</h3><span class="demo-pill">7 days</span></div><div class="bar-chart" aria-label="Demo seven day price trend"><span style="height:42%"></span><span style="height:56%"></span><span style="height:48%"></span><span style="height:68%"></span><span style="height:61%"></span><span style="height:82%"></span><span style="height:94%"></span></div><div class="chart-labels"><small>Mon</small><small>Tue</small><small>Wed</small><small>Thu</small><small>Fri</small><small>Sat</small><small>Today</small></div><p class="chart-caption">Sample movement for the selected market view.</p></div></div>
+                <div class="compare-panel panel-card"><div class="panel-header"><div><h3>Compare Markets</h3><p class="panel-caption">Crop: Tomato · Demo Market Data</p></div><button class="mini-btn" type="button" id="marketDetailsButton">View Market Details</button></div><div class="comparison-grid"><div><span>Market A · Bengaluru</span><strong>₹1,480/Q</strong></div><div class="highest-price"><span>Market B · Kolar</span><strong>₹1,620/Q</strong><small>Highest sample price</small></div><div><span>Market C · Mysuru</span><strong>₹1,540/Q</strong></div></div></div>
+                <div class="weather-market-impact panel-card"><div class="panel-header"><div><span class="eyebrow">Prototype Insight</span><h3>Weather Impact on Farming</h3></div><span class="demo-pill">No price prediction</span></div><div class="impact-grid"><div><strong>Rain forecast</strong><p>Review field access and postpone non-urgent outdoor work when rain is likely.</p></div><div><strong>Harvest planning</strong><p>Use the forecast as one planning input and confirm crop readiness in the field.</p></div><div><strong>Storage considerations</strong><p>Keep harvested produce protected from moisture during wet conditions.</p></div><div><strong>Transport planning</strong><p>Allow extra time for weather-sensitive pickup and local road conditions.</p></div></div></div>
+            </div>
+        </section>
+
+        <section class="section market-intelligence-section" id="market-intelligence">
+            <div class="container">
+                <div class="section-header market-intelligence-hero"><div><span class="eyebrow">Decision support · prototype</span><h2 class="section-title" style="text-align:left; margin:8px 0 6px;">Market Intelligence</h2><p class="section-subtitle" style="text-align:left; margin:0;">Know the Market. Sell Smarter.</p><p class="panel-caption">Compare crop prices, understand market trends and estimate your potential earnings.</p></div><div><span class="demo-pill">DEMO MODE</span><p class="demo-note" id="marketStatus">Market prices and insights shown here are prototype data and are not live verified prices.</p></div></div>
+                <div class="market-query panel-card"><div class="field"><label for="marketCropSelector">Crop</label><select id="marketCropSelector"><option>All crops</option><option>Paddy</option><option>Tomato</option><option>Chilli</option><option>Maize</option><option>Groundnut</option></select></div><div class="field"><label for="marketLocationSelector">Location</label><select id="marketLocationSelector"><option>All locations</option><option>Guntur</option><option>Kurnool</option><option>Bengaluru</option><option>Nagpur</option><option>Anantapur</option></select></div><div class="field"><label for="marketNameSelector">Market</label><select id="marketNameSelector"><option>All markets</option><option>Guntur Market</option><option>Tenali Market</option><option>Kurnool Market</option><option>Bengaluru Market</option></select></div><div class="field"><label for="marketDateSelector">Date</label><input id="marketDateSelector" type="date" /></div><div class="field"><label for="marketSearch">Search</label><input id="marketSearch" type="search" placeholder="Search crop or market" /></div></div>
+                <div class="market-price-grid" id="marketPriceCards"></div>
+                <div class="market-intelligence-grid"><div class="panel-card market-comparison"><div class="panel-header"><div><span class="eyebrow">Prototype comparison</span><h3>Compare Nearby Markets</h3></div><select id="comparisonSort" aria-label="Sort market comparison"><option value="price">Highest Price</option><option value="distance">Nearest Market</option><option value="value">Best Estimated Value</option></select></div><div class="table-scroll"><table class="analytics-table"><thead><tr><th>Market</th><th>Crop</th><th>Price</th><th>Distance</th><th>Price Trend</th><th>Last Updated</th></tr></thead><tbody id="comparisonBody"></tbody></table></div></div><div class="panel-card price-trend-panel"><div class="panel-header"><div><h3>Price Trend</h3><span class="prototype-label">Prototype Price Trend</span></div><select id="trendRange" aria-label="Price trend range"><option>7 Days</option><option>30 Days</option><option>3 Months</option></select></div><div class="trend-bars" id="marketTrendChart"></div></div></div>
+                <div class="decision-panel panel-card"><div class="panel-header"><div><span class="eyebrow">Prototype Estimate</span><h3>Where Should I Sell?</h3></div><span class="demo-pill">Not a guaranteed real-world option</span></div><div class="decision-grid" id="sellingDecision"></div></div>
+                <div class="calculator-grid"><div class="panel-card calculator-card"><div class="panel-header"><div><span class="eyebrow">Planning estimate</span><h3>Farm Profit Calculator</h3></div></div><form id="profitForm" class="calculator-form"><div class="field"><label for="profitCrop">Crop</label><select id="profitCrop"><option>Tomato</option><option>Paddy</option><option>Chilli</option><option>Maize</option><option>Groundnut</option></select></div><div class="field"><label for="profitArea">Farm Area (acres)</label><input id="profitArea" type="number" min="0" step="0.1" required></div><div class="field"><label for="profitYield">Expected Yield (kg)</label><input id="profitYield" type="number" min="0" required></div><div class="field"><label for="profitPrice">Selling Price (₹/kg)</label><input id="profitPrice" type="number" min="0" step="0.01" required></div><div class="field"><label for="seedCost">Seed Cost</label><input id="seedCost" type="number" min="0" value="0"></div><div class="field"><label for="fertilizerCost">Fertilizer Cost</label><input id="fertilizerCost" type="number" min="0" value="0"></div><div class="field"><label for="inputCost">Pesticide/Input Cost</label><input id="inputCost" type="number" min="0" value="0"></div><div class="field"><label for="labourCost">Labour Cost</label><input id="labourCost" type="number" min="0" value="0"></div><div class="field"><label for="irrigationCost">Irrigation Cost</label><input id="irrigationCost" type="number" min="0" value="0"></div><div class="field"><label for="profitTransport">Transport Cost</label><input id="profitTransport" type="number" min="0" value="0"></div><div class="field"><label for="otherCost">Other Expenses</label><input id="otherCost" type="number" min="0" value="0"></div><button class="primary-btn" type="submit">Calculate Estimate</button></form><p class="calculator-error" id="profitError" role="alert"></p><div class="result-grid" id="profitResults"></div></div>
+                    <div class="calculator-stack"><div class="panel-card calculator-card"><div class="panel-header"><h3>Harvest &amp; Revenue Estimate</h3><span class="prototype-label">Planning estimate</span></div><form id="harvestForm" class="calculator-form"><div class="field"><label for="harvestCrop">Crop</label><input id="harvestCrop" value="Tomato" required></div><div class="field"><label for="harvestArea">Area (acres)</label><input id="harvestArea" type="number" min="0" required></div><div class="field"><label for="harvestYield">Yield per Acre (kg)</label><input id="harvestYield" type="number" min="0" required></div><div class="field"><label for="harvestPrice">Selling Price (₹/kg)</label><input id="harvestPrice" type="number" min="0" required></div><button class="primary-btn" type="submit">Estimate Harvest</button></form><div class="result-grid" id="harvestResults"></div><p class="panel-caption">This is only a planning estimate. Actual yield and selling price may vary.</p></div><div class="panel-card calculator-card"><div class="panel-header"><h3>Transport Cost Estimate</h3><span class="prototype-label">Prototype Estimate</span></div><form id="transportForm" class="calculator-form"><div class="field"><label for="transportDistance">Distance (km)</label><input id="transportDistance" type="number" min="0" required></div><div class="field"><label for="transportQuantity">Quantity (kg)</label><input id="transportQuantity" type="number" min="0" required></div><div class="field"><label for="vehicleType">Vehicle Type</label><select id="vehicleType"><option>Small truck</option><option>Tractor trolley</option><option>Large truck</option></select></div><div class="field"><label for="transportRate">Estimated Cost per km</label><input id="transportRate" type="number" min="0" value="35" required></div><button class="primary-btn" type="submit">Estimate Transport</button></form><div class="result-grid" id="transportResults"></div><p class="panel-caption">This is not a real transportation quotation.</p></div></div></div>
+                <div class="market-bottom-grid"><div class="panel-card watchlist-card"><div class="panel-header"><div><span class="eyebrow">Farmer tools</span><h3>My Market Watchlist</h3></div><span class="demo-pill">Demo prices</span></div><form id="watchlistForm"><div class="field"><label for="watchCrop">Add crop to watch</label><select id="watchCrop"><option>Tomato</option><option>Paddy</option><option>Chilli</option><option>Maize</option><option>Groundnut</option></select></div><button class="secondary-btn" type="submit">Add Crop</button></form><div id="watchlistItems"></div></div><div class="panel-card alert-card"><div class="panel-header"><div><span class="eyebrow">Future notification integration</span><h3>Prototype Price Alert</h3></div></div><form id="priceAlertForm"><div class="field"><label for="alertCrop">Crop</label><select id="alertCrop"><option>Tomato</option><option>Paddy</option><option>Chilli</option><option>Maize</option><option>Groundnut</option></select></div><div class="field"><label for="alertTarget">Notify me when price reaches (₹/kg)</label><input id="alertTarget" type="number" min="0" step="0.01" required></div><button class="primary-btn" type="submit">Create Price Alert</button></form><div id="priceAlertItems"></div></div></div>
+                <div class="weather-market-plan panel-card"><div><span class="eyebrow">Prototype Advisory</span><h3>Weather + Market Planning</h3><p>Rain forecast may affect harvest and transport planning. This does not predict actual prices.</p></div><button class="secondary-btn" type="button" data-target="#farm-weather">View Weather</button></div>
+            </div>
+        </section>
+
+        <section class="section farmer-marketplace" id="farmer-marketplace">
+            <div class="container">
+                <div class="marketplace-hero-strip">
+                    <div><span class="eyebrow">Prototype Marketplace</span><h2>AgriOne Farmer Marketplace</h2><p>Connect directly with buyers and discover better opportunities for your crops.</p></div>
+                    <div class="marketplace-trust"><span>✓ Farmer verified badge <small>(prototype)</small></span><span>◈ Transparent pricing</span></div>
+                </div>
+                <div class="marketplace-toolbar panel-card">
+                    <div class="market-search"><label for="marketplaceSearch">Search crops</label><input id="marketplaceSearch" type="search" placeholder="Try tomato, paddy, chilli..." /></div>
+                    <div><label for="marketplaceCategory">Category</label><select id="marketplaceCategory"><option value="all">All crops</option><option>Vegetables</option><option>Grains</option><option>Spices</option><option>Fruits</option></select></div>
+                    <div><label for="marketplaceLocation">Location</label><select id="marketplaceLocation"><option value="all">All locations</option><option>Guntur</option><option>Nashik</option><option>Kurnool</option><option>Hassan</option><option>Warangal</option></select></div>
+                    <div><label for="marketplacePrice">Price range</label><select id="marketplacePrice"><option value="all">Any price</option><option value="0-30">Under ₹30/kg</option><option value="30-60">₹30–₹60/kg</option><option value="60-1000">Above ₹60/kg</option></select></div>
+                    <div><label for="marketplaceSort">Sort by</label><select id="marketplaceSort"><option value="recent">Recommended</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="quantity">Quantity: high to low</option></select></div>
+                </div>
+                <div class="marketplace-layout"><div class="marketplace-main"><div class="marketplace-listing-heading"><div><span class="eyebrow">Fresh opportunities</span><h3>Crop listings</h3></div><span class="demo-pill">All prices and people are sample data</span></div><div class="crop-listings" id="cropListings"></div><p class="empty-market hidden" id="emptyMarket">No demo listings match those filters.</p></div><aside class="marketplace-side"><div class="panel-card marketplace-side-card"><div class="panel-header"><h3>Trust signals</h3><span class="demo-pill">Prototype</span></div><div class="trust-list"><div><strong>✓</strong><span><b>Farmer verified badge</b><small>Identity review is not connected yet.</small></span></div><div><strong>⌁</strong><span><b>Secure enquiry</b><small>Messages stay inside this demo UI.</small></span></div><div><strong>₹</strong><span><b>Transparent pricing</b><small>Compare the seller's expected price.</small></span></div></div></div><div class="panel-card marketplace-side-card"><div class="panel-header"><h3>Seller notifications</h3><span class="notification-count">5</span></div><div class="seller-notifications"><p><b>New buyer enquiry</b><span>Tomato lot · 18 min ago</span></p><p><b>Purchase request</b><span>Paddy lot · 42 min ago</span></p><p><b>Order confirmed</b><span>Demo order AO-1048</span></p><p><b>Payment received <small>(DEMO)</small></b><span>₹12,400 sample payment</span></p><p><b>Delivery update</b><span>AO-1039 is out for delivery</span></p></div></div></aside></div>
+                <div class="market-role-grid"><div class="panel-card role-panel"><div class="panel-header"><div><span class="eyebrow">Farmer side</span><h3>My Crop Listings</h3></div><span class="demo-pill">Demo analytics</span></div><div class="stat-chip-grid"><div><b>4</b><span>Active listings</span></div><div><b>2</b><span>Sold crops</span></div><div><b>7</b><span>Pending enquiries</span></div><div><b>1,240 kg</b><span>Total quantity listed</span></div><div><b>₹68,400</b><span>Total expected value</span></div></div><div class="listing-actions"><button class="mini-btn" type="button" data-farmer-action="Edit Listing">Edit Listing</button><button class="mini-btn" type="button" data-farmer-action="Pause Listing">Pause Listing</button><button class="mini-btn" type="button" data-farmer-action="Remove Listing">Remove Listing</button><button class="mini-btn" type="button" data-farmer-action="View Enquiries">View Enquiries</button></div></div><div class="panel-card role-panel"><div class="panel-header"><div><span class="eyebrow">Buyer side</span><h3>Buyer Dashboard</h3></div><span class="demo-pill">Sample buyer: Ananya Foods</span></div><div class="buyer-dashboard-links"><button type="button" data-market-tab="search">⌕ <span>Search Crops</span><b>24</b></button><button type="button" data-market-tab="enquiries">✉ <span>My Enquiries</span><b>3</b></button><button type="button" data-market-tab="requests">↗ <span>Purchase Requests</span><b>2</b></button><button type="button" data-market-tab="orders">▣ <span>Orders</span><b>1</b></button><button type="button" data-market-tab="saved">♡ <span>Saved Crops</span><b>5</b></button></div></div></div>
+                <div class="marketplace-analytics panel-card"><div class="panel-header"><div><span class="eyebrow">Farmer dashboard</span><h3>Marketplace analytics</h3></div><span class="demo-pill">Demo data only</span></div><div class="analytics-stat-row"><div><span>Total crops listed</span><strong>8</strong></div><div><span>Total enquiries</span><strong>19</strong></div><div><span>Active orders</span><strong>3</strong></div><div><span>Potential sales value</span><strong>₹1,42,800</strong></div></div></div>
+                <div class="business-model"><span class="eyebrow">Proposed Business Model</span><h3>How AgriOne Can Earn</h3><div class="business-items"><span>Marketplace transaction commission</span><span>Premium farmer services</span><span>Buyer subscriptions</span><span>Equipment/service partnerships</span><span>Agricultural product partnerships</span></div></div>
+            </div>
+        </section>
+
+        <div class="market-modal hidden" id="cropDetailModal" role="dialog" aria-modal="true" aria-labelledby="detailCropName"><div class="market-modal-card"><button class="modal-close" id="closeCropDetail" type="button" aria-label="Close crop details">×</button><div id="cropDetailView"><div class="detail-layout"><img id="detailCropImage" src="" alt="" /><div><span class="demo-pill">Prototype Demo Listing</span><h2 id="detailCropName"></h2><p id="detailCropSummary" class="detail-summary"></p><div class="detail-facts" id="detailCropFacts"></div><p id="detailCropDescription"></p><div class="detail-badges"><span>✓ Farmer badge (prototype)</span><span>◈ Crop information</span></div><div class="modal-actions"><button class="primary-btn" id="openEnquiryButton" type="button">Send Buyer Enquiry</button><button class="secondary-btn" id="openOrderButton" type="button">Request to Buy</button></div></div></div></div><div class="modal-subview hidden" id="enquiryView"><span class="eyebrow">Secure enquiry · prototype</span><h2>Send Buyer Enquiry</h2><form id="buyerEnquiryForm" class="enquiry-form"><div class="field-grid"><div class="field"><label for="buyerName">Buyer name</label><input id="buyerName" required placeholder="Ananya Foods" /></div><div class="field"><label for="buyerPhone">Phone number</label><input id="buyerPhone" type="tel" required placeholder="98765 43210" /></div><div class="field"><label for="requiredQuantity">Required quantity (kg)</label><input id="requiredQuantity" type="number" min="1" required placeholder="200" /></div><div class="field"><label for="deliveryLocation">Delivery location</label><input id="deliveryLocation" required placeholder="Hyderabad" /></div><div class="field"><label for="offeredPrice">Offered price (₹/kg)</label><input id="offeredPrice" type="number" min="1" required placeholder="42" /></div></div><div class="field"><label for="buyerMessage">Message</label><textarea id="buyerMessage" rows="4" placeholder="Share your delivery timeline or quality needs."></textarea></div><button class="primary-btn" type="submit">Submit Enquiry</button><p class="success-message hidden" id="enquirySuccess">Buyer enquiry submitted successfully.</p></form></div><div class="modal-subview hidden" id="orderView"><span class="eyebrow">Demo purchase flow</span><h2>Request to Buy</h2><div class="order-stepper"><span class="active">1. Quantity</span><span>2. Address</span><span>3. Confirm</span></div><form id="purchaseForm"><div class="field"><label for="purchaseQuantity">Enter quantity (kg)</label><input id="purchaseQuantity" type="number" min="1" required placeholder="100" /></div><div class="field"><label for="purchaseAddress">Enter delivery address</label><textarea id="purchaseAddress" rows="3" required placeholder="Street, town, state"></textarea></div><button class="primary-btn" type="submit">Confirm Order</button></form></div><div class="modal-subview hidden" id="confirmedView"><span class="eyebrow">Demo order confirmed</span><h2>Order Confirmed</h2><p class="order-confirmed-copy">Your sample purchase request has been recorded for the seller.</p><div class="order-id">Order ID <strong id="orderId">AO-1048</strong></div><div class="tracking-timeline"><div class="done"><b>✓</b><span>Order Confirmed</span></div><div class="done"><b>✓</b><span>Seller Preparing</span></div><div><b>○</b><span>Packed</span></div><div><b>○</b><span>Out for Delivery</span></div><div><b>○</b><span>Delivered</span></div></div><small class="demo-note">Demo status only. No payment or delivery service is connected.</small></div></div></div>
+
+        <section class="section ai-assistant-section" id="ai-assistant">
+            <div class="container">
+                <p class="assistant-error" id="assistantError" role="alert"></p>
+                <div class="section-header ai-hero"><div><span class="eyebrow">Farmer guidance · prototype</span><h2 class="section-title" style="text-align:left; margin:8px 0 6px;">AgriOne AI Assistant</h2><p class="section-subtitle" style="text-align:left; margin:0;">Your Smart Farming Assistant</p><p class="panel-caption">Ask farming-related questions and get easy-to-understand guidance.</p></div><div><span class="demo-pill">DEMO AI</span><p class="demo-note">This assistant currently uses prototype responses. Connect a production AI backend for live AI responses.</p></div></div>
+                <div class="assistant-layout"><div class="assistant-main panel-card"><div class="assistant-toolbar"><div><span class="eyebrow">Chat guidance</span><strong>Preliminary prototype guidance</strong></div><div class="assistant-toolbar-actions"><select id="assistantLanguage" aria-label="Assistant language"><option value="en">English</option><option value="te">తెలుగు</option></select><button class="mini-btn" id="newAssistantChat" type="button">New Chat</button><button class="mini-btn" id="clearAssistantChat" type="button">Clear Chat</button></div></div><div class="chat-messages" id="chatMessages" aria-live="polite"></div><div class="typing-indicator hidden" id="typingIndicator">AgriOne AI is typing<span>...</span></div><form class="chat-form" id="assistantChatForm"><label class="visually-hidden" for="assistantInput">Ask AgriOne AI</label><input id="assistantInput" type="text" placeholder="Ask something like: How can I identify problems in my tomato crop?" autocomplete="off" /><button class="voice-button" id="voiceInputButton" type="button" aria-label="Voice input">🎤</button><button class="primary-btn" type="submit">Send</button></form><p class="assistant-safety">AI Assistant provides preliminary information for educational and planning purposes. It is not a substitute for advice from a qualified agricultural expert.</p></div><aside class="assistant-side panel-card"><div class="panel-header"><div><span class="eyebrow">Explore by topic</span><h3>Quick Questions</h3></div></div><div class="assistant-categories" id="assistantCategories"><button type="button" class="active" data-ai-category="Crop Health">Crop Health</button><button type="button" data-ai-category="Weather">Weather</button><button type="button" data-ai-category="Market">Market</button><button type="button" data-ai-category="Equipment">Equipment</button><button type="button" data-ai-category="Soil">Soil</button><button type="button" data-ai-category="Storage">Storage</button><button type="button" data-ai-category="Selling Crops">Selling Crops</button><button type="button" data-ai-category="General Farming">General Farming</button></div><div class="quick-questions" id="quickQuestions"></div><button class="secondary-btn full-width-btn" type="button" data-target="#disease">📷 Upload Crop Image</button><div class="assistant-history"><div class="panel-header"><h3>Previous Chats</h3><button class="mini-btn" id="deleteAssistantHistory" type="button">Delete</button></div><div id="assistantHistoryList"><p class="panel-caption">No saved demo chats yet.</p></div></div></aside></div><div class="assistant-capabilities"><span class="eyebrow">Proposed Product Capability</span><h3>Why AgriOne AI?</h3><div><span>24/7 Farmer Assistance</span><span>Simple Language</span><span>Connected Farm Services</span><span>Personalized Guidance</span><span>One Platform</span></div></div>
+            </div>
+        </section>
+
+        <section class="section admin-ai-section" id="admin-ai-analytics"><div class="container"><div class="section-header"><div><span class="eyebrow">Admin Panel · Prototype Analytics</span><h2 class="section-title" style="text-align:left; margin:7px 0 5px;">AI Assistant Analytics</h2><p class="section-subtitle" style="text-align:left; margin:0;">Demo metrics only. They do not represent real user counts.</p></div><span class="demo-pill">Prototype Analytics</span></div><div class="admin-report-grid"><div><span>Total conversations</span><strong id="aiConversationCount">0</strong></div><div><span>Questions asked</span><strong id="aiQuestionCount">0</strong></div><div><span>Most common categories</span><strong>Crop Health, Weather</strong></div><div><span>Disease-related questions</span><strong id="aiDiseaseCount">0</strong></div><div><span>Weather-related questions</span><strong id="aiWeatherCount">0</strong></div><div><span>Market-related questions</span><strong id="aiMarketCount">0</strong></div></div></div></section>
+
+        <section class="section language-settings-section" id="language-settings"><div class="container"><div class="language-settings-card panel-card"><div><span class="eyebrow">AgriOne preferences</span><h2 class="section-title" style="text-align:left; margin:7px 0 5px;">Language Settings</h2><p class="panel-caption">Language preference will be used throughout AgriOne.</p></div><div class="language-settings-controls"><label for="settingsLanguage">Current Language</label><select id="settingsLanguage"></select><button class="primary-btn" id="saveLanguagePreference" type="button">Save Language Preference</button></div><div><span class="eyebrow">Available Languages</span><div class="settings-language-list" id="settingsLanguageList"></div></div></div></div></section>
+
+        <section class="section farm-services-section" id="farm-services">
+            <div class="container">
+                <div class="section-header farm-services-hero"><div><span class="eyebrow">Farm operations · prototype</span><h2 class="section-title" style="text-align:left; margin:8px 0 6px;">Farm Services</h2><p class="section-subtitle" style="text-align:left; margin:0;">Everything Your Farm Needs</p><p class="panel-caption">Book farm equipment, request soil testing and find storage solutions from one platform.</p></div><div><span class="demo-pill">DEMO MODE</span><p class="demo-note">Sample providers, prices, availability and capacities are prototype data.</p></div></div>
+                <div class="farm-service-search panel-card"><div class="field"><label for="farmServiceSearch">Search farm services</label><input id="farmServiceSearch" type="search" placeholder="Equipment, soil testing, storage..." /></div><span class="panel-caption">Providers are marked Demo / Unverified.</span></div>
+                <div class="farm-service-tabs" role="tablist"><button type="button" class="active" data-farm-tab="equipment">🚜 Equipment Rental</button><button type="button" data-farm-tab="soil">🧪 Soil Testing</button><button type="button" data-farm-tab="storage">📦 Crop Storage</button></div>
+                <div class="farm-service-pane active" id="farmEquipmentPane"><div class="service-filter-row"><div class="field"><label for="equipmentType">Type</label><select id="equipmentType"><option>All equipment</option><option>Tractor</option><option>Rotavator</option><option>Harvester</option><option>Cultivator</option><option>Seed Drill</option><option>Sprayer</option><option>Thresher</option></select></div><div class="field"><label for="equipmentAvailability">Availability</label><select id="equipmentAvailability"><option>Any availability</option><option>Available</option><option>Limited dates</option><option>On request</option></select></div><div class="field"><label for="equipmentLocation">Location</label><select id="equipmentLocation"><option>All locations</option><option>Guntur</option><option>Nallapadu</option><option>Tenali</option><option>Vijayawada</option><option>Kurnool</option></select></div></div><div class="farm-card-grid" id="equipmentCards"></div></div>
+                <div class="farm-service-pane" id="farmSoilPane"><div class="service-filter-row"><div class="field"><label for="soilServiceType">Test type</label><select id="soilServiceType"><option>All test types</option><option>Soil pH</option><option>NPK Testing</option><option>Soil Moisture</option><option>Organic Matter</option><option>Basic Soil Analysis</option></select></div><div class="field"><label for="soilServiceLocation">Location</label><select id="soilServiceLocation"><option>All locations</option><option>Guntur</option><option>Tenali</option><option>Vijayawada</option></select></div></div><p class="panel-caption">Understand your soil properties and make better farm management decisions. No automatic fertilizer prescriptions are generated.</p><div class="farm-card-grid" id="soilServiceCards"></div><div class="panel-card soil-report-card"><div class="panel-header"><div><span class="eyebrow">Demo Soil Report</span><h3>Sample Soil Report</h3></div><span class="demo-pill">Sample values shown for prototype demonstration only</span></div><div class="soil-report-values"><div><span>Soil pH</span><strong>6.8</strong></div><div><span>Nitrogen</span><strong>Medium</strong></div><div><span>Phosphorus</span><strong>High</strong></div><div><span>Potassium</span><strong>Medium</strong></div><div><span>Organic Matter</span><strong>1.2%</strong></div></div><label class="upload-report secondary-btn" for="soilReportUpload">Upload Soil Report</label><input class="hidden" id="soilReportUpload" type="file" accept="application/pdf,image/*" /></div></div>
+                <div class="farm-service-pane" id="farmStoragePane"><div class="service-filter-row"><div class="field"><label for="storageType">Storage type</label><select id="storageType"><option>All storage</option><option>Warehouse</option><option>Cold Storage</option><option>Grain Storage</option><option>Vegetable Storage</option><option>Fruit Storage</option></select></div><div class="field"><label for="storageLocation">Location</label><select id="storageLocation"><option>All locations</option><option>Guntur</option><option>Tenali</option><option>Vijayawada</option></select></div><div class="field"><label for="storageAvailability">Availability</label><select id="storageAvailability"><option>Any availability</option><option>Available</option><option>Limited space</option></select></div></div><div class="farm-card-grid" id="storageCards"></div></div>
+                <div class="panel-card farm-request-panel"><div class="panel-header"><div><span class="eyebrow">Booking workspace</span><h3 id="farmRequestTitle">Equipment Booking Form</h3></div><span class="demo-pill">Prototype Estimate</span></div><form id="equipmentBookingForm" class="farm-request-form"><div class="field"><label for="bookingEquipment">Equipment</label><input id="bookingEquipment" required placeholder="Select equipment above" /></div><div class="field"><label for="bookingStart">Start Date</label><input id="bookingStart" type="date" required /></div><div class="field"><label for="bookingEnd">End Date</label><input id="bookingEnd" type="date" required /></div><div class="field"><label for="bookingDays">Number of Days</label><input id="bookingDays" type="number" min="1" required /></div><div class="field"><label for="bookingLocation">Farm Location</label><input id="bookingLocation" required placeholder="Village, district" /></div><div class="field"><label for="bookingFarmer">Farmer Name</label><input id="bookingFarmer" required /></div><div class="field"><label for="bookingMobile">Mobile Number</label><input id="bookingMobile" type="tel" required /></div><div class="field full-width"><label for="bookingRequirements">Additional Requirements</label><textarea id="bookingRequirements" rows="2"></textarea></div><button class="primary-btn" type="submit">Request Rental</button></form><p class="form-error" id="farmServiceError" role="alert"></p><div id="bookingEstimate" class="booking-estimate">Select equipment and dates to see a Prototype Estimate.</div><div class="workflow" id="equipmentWorkflow"><span class="active">Requested</span><span>Provider Review</span><span>Confirmed</span><span>Equipment Assigned</span><span>Completed</span></div><p class="success-message hidden" id="equipmentSuccess">Equipment rental request submitted successfully.</p></div>
+                <div class="farm-request-grid"><div class="panel-card farm-request-panel"><div class="panel-header"><div><span class="eyebrow">Service request</span><h3>Soil Test Request</h3></div><span class="demo-pill">Prototype workflow</span></div><form id="farmSoilForm" class="farm-request-form"><div class="field"><label for="farmSoilFarmer">Farmer Name</label><input id="farmSoilFarmer" required></div><div class="field"><label for="farmSoilMobile">Mobile Number</label><input id="farmSoilMobile" type="tel" required></div><div class="field"><label for="farmSoilLocation">Farm Location</label><input id="farmSoilLocation" required></div><div class="field"><label for="farmSoilVillage">Village</label><input id="farmSoilVillage" required></div><div class="field"><label for="farmSoilDistrict">District</label><input id="farmSoilDistrict" required></div><div class="field"><label for="farmSoilCrop">Crop</label><input id="farmSoilCrop" required></div><div class="field"><label for="farmSoilArea">Farm Area (acres)</label><input id="farmSoilArea" type="number" min="0" required></div><div class="field"><label for="farmSoilDate">Preferred Date</label><input id="farmSoilDate" type="date" required></div><div class="field"><label for="farmSoilTestType">Soil Test Type</label><select id="farmSoilTestType"><option>Basic Soil Analysis</option><option>Soil pH</option><option>NPK Testing</option><option>Soil Moisture</option><option>Organic Matter</option></select></div><div class="field full-width"><label for="farmSoilNotes">Additional Notes</label><textarea id="farmSoilNotes" rows="2"></textarea></div><button class="primary-btn" type="submit">Request Soil Test</button></form><p class="success-message hidden" id="soilSuccess">Your soil testing request has been submitted.</p><div class="workflow compact-workflow"><span class="active">Requested</span><span>Lab/Service Review</span><span>Sample Collection</span><span>Testing</span><span>Report Available</span></div></div><div class="panel-card farm-request-panel"><div class="panel-header"><div><span class="eyebrow">Service request</span><h3>Storage Request Form</h3></div><span class="demo-pill">Prototype Estimate</span></div><form id="storageForm" class="farm-request-form"><div class="field"><label for="storageCrop">Crop</label><input id="storageCrop" required></div><div class="field"><label for="storageQuantity">Quantity</label><input id="storageQuantity" type="number" min="0" required></div><div class="field"><label for="storageUnit">Unit</label><select id="storageUnit"><option>kg</option><option>tonnes</option><option>bags</option></select></div><div class="field"><label for="storageRequestType">Storage Type</label><select id="storageRequestType"><option>Warehouse</option><option>Cold Storage</option><option>Grain Storage</option><option>Vegetable Storage</option><option>Fruit Storage</option></select></div><div class="field"><label for="storageStart">Required From</label><input id="storageStart" type="date" required></div><div class="field"><label for="storageEnd">Required Until</label><input id="storageEnd" type="date" required></div><div class="field"><label for="storageRequestLocation">Farm/Delivery Location</label><input id="storageRequestLocation" required></div><div class="field"><label for="storageContact">Farmer Contact</label><input id="storageContact" type="tel" required></div><button class="primary-btn" type="submit">Request Storage</button></form><p class="form-error" id="storageError" role="alert"></p><div id="storageEstimate" class="booking-estimate">Enter quantity and dates for a Prototype Estimate.</div><div class="workflow compact-workflow"><span class="active">Storage Requested</span><span>Availability Check</span><span>Confirmed</span><span>Crop Stored</span><span>Storage Completed</span></div></div></div>
+                <div class="panel-card my-farm-services"><div class="panel-header"><div><span class="eyebrow">Unified view</span><h3>My Farm Services</h3></div><span class="demo-pill">Demo request history</span></div><div class="request-tabs"><button class="active" type="button" data-request-tab="all">All</button><button type="button" data-request-tab="equipment">Equipment</button><button type="button" data-request-tab="soil">Soil</button><button type="button" data-request-tab="storage">Storage</button></div><div id="farmRequestHistory"><p class="panel-caption">No requests yet.</p></div></div>
+                <div class="business-model farm-business"><span class="eyebrow">Proposed Business Model</span><h3>How AgriOne Can Earn</h3><div class="business-items"><span>Equipment booking commission</span><span>Soil testing service fee</span><span>Storage booking commission</span><span>Provider subscription</span><span>Premium farmer services</span></div></div>
+            </div>
+        </section>
+
+        <section class="section admin-farm-services" id="admin-farm-services"><div class="container"><div class="section-header"><div><span class="eyebrow">Admin Panel · Prototype</span><h2 class="section-title" style="text-align:left; margin:7px 0 5px;">Farm Services Management</h2><p class="section-subtitle" style="text-align:left; margin:0;">Prototype request monitoring across equipment, soil and storage services.</p></div><span class="demo-pill">DEMO DATA</span></div><div class="admin-report-grid"><div><span>Total equipment requests</span><strong>3</strong></div><div><span>Pending requests</span><strong>2</strong></div><div><span>Confirmed rentals</span><strong>1</strong></div><div><span>Completed rentals</span><strong>0</strong></div><div><span>Total soil requests</span><strong>2</strong></div><div><span>Reports available</span><strong>1</strong></div><div><span>Active storage</span><strong>1</strong></div><div><span>Completed storage</span><strong>0</strong></div></div><div class="admin-recent-reports panel-card"><h3>Recent requests</h3><p>FS-1048 · Equipment Rental · Requested</p><p>FS-1047 · Soil Testing · Lab/Service Review</p><p>FS-1046 · Storage · Availability Check</p></div></div></section>
+
+        <section class="section" id="services">
+            <div class="container">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title" style="text-align:left; margin-bottom: 6px;">Crop Selling</h2>
+                        <p class="section-subtitle" style="text-align:left; margin:0;">Post produce and connect with buyers faster.</p>
+                    </div>
+                    <div class="section-note">Prototype buyer feed</div>
+                </div>
+
+                <div class="forms-wrap">
+                    <div class="form-card">
+                        <h3>Post Crop</h3>
+                        <form id="sellForm">
+                            <div class="field">
+                                <label for="cropName">Crop name</label>
+                                <input id="cropName" type="text" placeholder="e.g. Paddy" required />
+                            </div>
+                            <div class="field">
+                                <label for="quantity">Quantity</label>
+                                <input id="quantity" type="text" placeholder="e.g. 200 kg" required />
+                            </div>
+                            <div class="field">
+                                <label for="expectedPrice">Expected price</label>
+                                <input id="expectedPrice" type="text" placeholder="e.g. ₹2100 per quintal" required />
+                            </div>
+                            <div class="field">
+                                <label for="location">Location</label>
+                                <input id="location" type="text" placeholder="e.g. Hyderabad" required />
+                            </div>
+                            <div class="field">
+                                <label for="contact">Contact</label>
+                                <input id="contact" type="tel" placeholder="e.g. +91 98765 43210" required />
+                            </div>
+                            <button class="primary-btn" type="submit">Post Crop</button>
+                        </form>
+                    </div>
+
+                    <div class="form-card">
+                        <h3>Soil Testing</h3>
+                        <form id="soilForm">
+                            <div class="field">
+                                <label for="farmerName">Farmer name</label>
+                                <input id="farmerName" type="text" placeholder="e.g. Venkatesh" required />
+                            </div>
+                            <div class="field">
+                                <label for="soilLocation">Location</label>
+                                <input id="soilLocation" type="text" placeholder="e.g. Guntur" required />
+                            </div>
+                            <div class="field">
+                                <label for="soilType">Soil type</label>
+                                <select id="soilType" required>
+                                    <option value="">Select soil type</option>
+                                    <option>Clay Loam</option>
+                                    <option>Red Soil</option>
+                                    <option>Black Soil</option>
+                                    <option>Sandy Loam</option>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label for="soilCrop">Crop</label>
+                                <input id="soilCrop" type="text" placeholder="e.g. Cotton" required />
+                            </div>
+                            <button class="primary-btn" type="submit">Request Soil Test</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="section-header" style="margin-top: 48px;">
+                    <div>
+                        <h2 class="section-title" style="text-align:left; margin-bottom: 6px;">Equipment Rental</h2>
+                        <p class="section-subtitle" style="text-align:left; margin:0;">Seasonal tools for small and medium farms.</p>
+                    </div>
+                </div>
+
+                <div class="service-grid">
+                    <article class="equipment-card">
+                        <div class="card-icon" style="margin-bottom: 10px;">🚜</div>
+                        <h3>Tractor</h3>
+                        <p>40 HP utility tractor for land preparation and hauling.</p>
+                        <div class="equipment-price">₹1,800/day</div>
+                        <button type="button" class="small-btn" data-request="Tractor rental">Request Equipment</button>
+                    </article>
+                    <article class="equipment-card">
+                        <div class="card-icon" style="margin-bottom: 10px;">🌾</div>
+                        <h3>Rotavator</h3>
+                        <p>Ideal for faster soil tilling and efficient seedbed preparation.</p>
+                        <div class="equipment-price">₹1,150/day</div>
+                        <button type="button" class="small-btn" data-request="Rotavator rental">Request Equipment</button>
+                    </article>
+                    <article class="equipment-card">
+                        <div class="card-icon" style="margin-bottom: 10px;">🚜</div>
+                        <h3>Harvester</h3>
+                        <p>Efficient harvesting support for large field operations.</p>
+                        <div class="equipment-price">₹2,600/day</div>
+                        <button type="button" class="small-btn" data-request="Harvester rental">Request Equipment</button>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section learning-section" id="learning-center">
+            <div class="container"><div class="section-header"><div><span class="eyebrow">Farmer education</span><h2 class="section-title" style="text-align:left; margin:7px 0 5px;">AgriOne Learning Center</h2><p class="section-subtitle" style="text-align:left; margin:0;">Short, practical guidance for everyday farm decisions.</p></div><span class="demo-pill">Prototype Education</span></div><div class="learning-grid"><article><h3>🌱 Crop Management</h3><p>Observe crop growth regularly and record changes in the field.</p><strong>Key point:</strong> Use Disease Detection for a preliminary image review.</article><article><h3>💧 Irrigation</h3><p>Consider soil moisture, crop stage and weather before watering.</p><strong>Key point:</strong> Farm Weather is a planning input, not a guarantee.</article><article><h3>🧪 Soil</h3><p>Soil testing can help you understand pH and nutrient levels.</p><strong>Key point:</strong> Confirm recommendations with a qualified expert.</article><article><h3>🐛 Crop Health</h3><p>Look for unusual spots, wilting or insect activity.</p><strong>Key point:</strong> Do not apply products without checking the label.</article><article><h3>🌦️ Weather</h3><p>Review rain and wind before planning field work.</p><strong>Key point:</strong> Local conditions may differ from forecasts.</article><article><h3>💰 Market</h3><p>Compare sample prices and transport costs before planning a sale.</p><strong>Key point:</strong> Market Intelligence data is prototype data.</article><article><h3>🚜 Equipment</h3><p>Check equipment fit, access and provider availability before booking.</p><strong>Key point:</strong> Rates and providers are unverified demo listings.</article><article><h3>📦 Storage</h3><p>Protect harvested crops from moisture and handling damage.</p><strong>Key point:</strong> Confirm capacity directly with a provider.</article><article><h3>🛡️ Cyber Safety</h3><p>Never share passwords, OTPs or private account details.</p><strong>Key point:</strong> AgriOne will not ask for your password.</article><article><h3>📱 Digital Farming</h3><p>Save useful farm records and use the app when network access is available.</p><strong>Key point:</strong> Demo data is not a verified service.</article></div></div>
+        </section>
+
+        <section class="section support-section" id="help-support">
+            <div class="container"><div class="section-header"><div><span class="eyebrow">Farmer support</span><h2 class="section-title" style="text-align:left; margin:7px 0 5px;">Help &amp; Support</h2><p class="section-subtitle" style="text-align:left; margin:0;">Questions, feedback and product support in one place.</p></div><span class="demo-pill">Demo Support</span></div><div class="support-grid"><div class="support-options"><button type="button" data-support-topic="Frequently Asked Questions">Frequently Asked Questions</button><button type="button" data-support-topic="Contact Support">Contact Support</button><button type="button" data-support-topic="Report a Problem">Report a Problem</button><button type="button" data-support-topic="Suggest a Feature">Suggest a Feature</button><button type="button" data-support-topic="Feedback">Feedback</button></div><form class="panel-card support-form" id="supportForm"><div class="field"><label for="supportName">Name</label><input id="supportName" required></div><div class="field"><label for="supportContact">Mobile / Email</label><input id="supportContact" required></div><div class="field"><label for="supportCategory">Category</label><select id="supportCategory"><option>Contact Support</option><option>Report a Problem</option><option>Suggest a Feature</option><option>Feedback</option></select></div><div class="field full-width"><label for="supportMessage">Message</label><textarea id="supportMessage" rows="4" required></textarea></div><button class="primary-btn" type="submit">Submit Support Ticket</button><p class="success-message hidden" id="supportSuccess">Your support ticket is open. A prototype support team would review it.</p></form></div><div class="panel-card feedback-card"><div class="panel-header"><div><span class="eyebrow">Farmer validation</span><h3>Farmer Feedback</h3></div><span class="demo-pill">Prototype Feedback</span></div><form id="feedbackForm" class="feedback-form"><div class="field"><label for="feedbackRating">Rating</label><select id="feedbackRating"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></div><div class="field"><label for="feedbackCategory">Category</label><input id="feedbackCategory" placeholder="Optional category"></div><div class="field full-width"><label for="feedbackText">Feedback or feature suggestion</label><textarea id="feedbackText" rows="3" required></textarea></div><button class="primary-btn" type="submit">Send Feedback</button></form><p class="success-message hidden" id="feedbackSuccess">Thank you. Your prototype feedback was recorded.</p></div></div>
+        </section>
+
+        <section class="section my-farm-section" id="my-farm"><div class="container"><div class="section-header"><div><span class="eyebrow">Farmer workspace</span><h2 class="section-title" style="text-align:left; margin:7px 0 5px;">My Farm</h2><p class="section-subtitle" style="text-align:left; margin:0;">A simple view of your profile and farm activity.</p></div><span class="demo-pill">Profile Snapshot</span></div><div class="my-farm-grid"><div class="panel-card farm-profile-card"><h3>Farmer Profile</h3><div><span>Farmer Name</span><strong id="myFarmName">Demo Farmer</strong></div><div><span>Farm Location</span><strong id="myFarmLocation">Nallapadu, Guntur, Andhra Pradesh</strong></div><div><span>Main Crop</span><strong id="myFarmCrop">Paddy</strong></div><div><span>Farm Area</span><strong id="myFarmArea">Add in Profile</strong></div><div><span>Preferred Language</span><strong id="myFarmLanguage">English</strong></div><a class="secondary-btn" href="#language-settings">Language Settings</a></div><div class="panel-card farm-stats-card"><h3>Quick Statistics</h3><div class="farm-stat-grid"><div><strong>4</strong><span>My Listings</span></div><div><strong>3</strong><span>My Orders</span></div><div><strong>2</strong><span>Disease Reports</span></div><div><strong>3</strong><span>Service Requests</span></div></div><a class="primary-btn" href="#dashboard">Edit Profile</a></div></div></div></section>
+
+        <section class="section investor-section" id="investor-overview"><div class="container"><div class="section-header"><div><span class="eyebrow">Startup presentation</span><h2 class="section-title" style="text-align:left; margin:7px 0 5px;">Built for India's Farming Ecosystem</h2><p class="section-subtitle" style="text-align:left; margin:0;">A connected product direction for a serious student startup MVP.</p></div><span class="demo-pill">No fabricated impact claims</span></div><div class="investor-grid"><div><h3>Problem</h3><p>Farm decisions can be fragmented across weather, crop health, markets and services.</p></div><div><h3>Solution</h3><p>AgriOne brings practical tools into one farmer-focused digital platform.</p></div><div><h3>Technology</h3><p>AI-assisted prototypes, Firebase-ready data flows, PWA support and multilingual UI.</p></div><div><h3>Target Users</h3><p>Farmers, buyers, service providers and agricultural organizations.</p></div><div><h3>Scalability</h3><p>Service and API boundaries are prepared for verified future integrations.</p></div><div><h3>Future Vision</h3><p>Validate locally, pilot responsibly and expand with trusted partners.</p></div></div><div class="roadmap"><span class="eyebrow">AgriOne Roadmap</span><div><span>1 · Student Prototype</span><span>2 · Farmer Validation</span><span>3 · MVP Pilot</span><span>4 · Real AI Model</span><span>5 · Live APIs</span><span>6 · Provider Network</span><span>7 · Regional Expansion</span><span>8 · Scale Across India</span></div></div><div class="business-model investor-business"><span class="eyebrow">Proposed Revenue Model</span><h3>AgriOne Business Model</h3><div class="business-items"><span>Marketplace Commission</span><span>Equipment Booking Commission</span><span>Soil Testing Service Fee</span><span>Storage Booking Commission</span><span>Provider Subscription</span><span>Premium Farmer Services</span><span>B2B Partnerships</span></div></div></div></section>
+
+        <section class="section partnership-section" id="partnership"><div class="container"><div class="section-header"><div><span class="eyebrow">Partnerships</span><h2 class="section-title" style="text-align:left; margin:7px 0 5px;">Partner With AgriOne</h2><p class="section-subtitle" style="text-align:left; margin:0;">Connect as an investor, agricultural organization, buyer or service provider.</p></div><span class="demo-pill">Prototype Intake</span></div><form id="partnershipForm" class="panel-card partnership-form"><div class="field"><label for="partnerName">Name</label><input id="partnerName" required></div><div class="field"><label for="partnerOrganization">Organization</label><input id="partnerOrganization" required></div><div class="field"><label for="partnerEmail">Email</label><input id="partnerEmail" type="email" required></div><div class="field"><label for="partnerMobile">Mobile</label><input id="partnerMobile" type="tel" required></div><div class="field"><label for="partnerType">Partnership Type</label><select id="partnerType"><option>Investor</option><option>Agricultural Organization</option><option>Equipment Provider</option><option>Buyer</option><option>Storage Provider</option><option>Technology Partner</option></select></div><div class="field full-width"><label for="partnerMessage">Message</label><textarea id="partnerMessage" rows="4" required></textarea></div><button class="primary-btn" type="submit">Contact Us</button><p class="success-message hidden" id="partnershipSuccess">Your partnership request was recorded in the prototype.</p></form></div></section>
+
+        <section class="section" id="about">
+            <div class="container about-grid">
+                <div class="about-panel">
+                    <h3>Why AgriOne?</h3>
+                    <p>
+                        AgriOne is designed to help farmers move from intuition-based decisions to smarter,
+                        data-supported operations. Our prototype brings together crop health, weather awareness,
+                        market visibility, and field services in a single digital experience.
+                    </p>
+                    <p>
+                        Built for rural productivity, easy adoption, and startup-ready storytelling, AgriOne is a
+                        simple but compelling concept for a farming technology platform.
+                    </p>
+                </div>
+
+                <div class="stats-stack">
+                    <div class="stat-box">
+                        <strong>1,200+</strong>
+                        <span>Demo farmer profiles</span>
+                    </div>
+                    <div class="stat-box">
+                        <strong>18 districts</strong>
+                        <span>Regional market coverage</span>
+                    </div>
+                    <div class="stat-box">
+                        <strong>92%</strong>
+                        <span>Prototype engagement rate</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <button class="floating-ai-button" id="floatingAiButton" type="button">🧠 Ask AI</button>
+
+    <footer>
+        <div class="container footer-inner">
+            <div>© 2026 AgriOne. Smart farming for a stronger tomorrow.</div>
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#dashboard">Dashboard</a>
+                <a href="#disease">Disease</a>
+                <a href="#market">Market</a>
+                <a href="#language-settings">Language</a>
+                <a href="#about">About</a>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="../script.js/script.js"></script>
+</body>
+</html>
