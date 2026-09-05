@@ -1,15 +1,14 @@
-import { analyzeCropImage, getDiseaseReports, saveDiseaseReport } from '../services/diseaseDetectionService.js';
-import { firebaseStatus, signIn, signUp, signOutUser, resetPassword, observeAuth, saveFarmerCollection, getFarmerProfile, saveFarmerProfile, getCurrentUser } from '../services/firebaseService.js';
-import { getWeather, weatherDisclaimer } from '../services/weatherService.js';
-import { getNearbyServices, serviceCategories } from '../services/nearbyServicesService.js';
-import { getMarketPrices, getMarketTrend, getMarketComparison } from '../services/marketService.js';
-import { getEquipment } from '../services/equipmentService.js';
-import { getSoilServices } from '../services/soilService.js';
-import { getStorage } from '../services/storageService.js';
-import { getAssistantResponse, DEMO_MESSAGE, SAFETY } from '../services/aiAssistantService.js';
-import { languageOptions, getLanguage, setLanguage, t, speechLanguage, applyTranslations, getAssistantQuestions } from '../i18n/index.js';
-import { createNotification } from '../services/notificationService.js';
-
+import { analyzeCropImage, getDiseaseReports, saveDiseaseReport } from './services/diseaseDetectionService.js';
+import { firebaseStatus, signIn, signUp, signOutUser, resetPassword, observeAuth, saveFarmerCollection, getFarmerProfile, saveFarmerProfile, getCurrentUser } from './services/firebaseService.js';
+import { getWeather, weatherDisclaimer } from './services/weatherService.js';
+import { getNearbyServices, serviceCategories } from './services/nearbyServicesService.js';
+import { getMarketPrices, getMarketTrend, getMarketComparison } from './services/marketService.js';
+import { getEquipment } from './services/equipmentService.js';
+import { getSoilServices } from './services/soilService.js';
+import { getStorage } from './services/storageService.js';
+import { getAssistantResponse, DEMO_MESSAGE, SAFETY } from './services/aiAssistantService.js';
+import { languageOptions, getLanguage, setLanguage, t, speechLanguage, applyTranslations, getAssistantQuestions } from './i18n/index.js';
+import { createNotification } from './services/notificationService.js';git add script.js
 document.addEventListener('DOMContentLoaded', () => {
     const imageInput = document.getElementById('cropImage');
     const previewBox = document.getElementById('previewBox');
