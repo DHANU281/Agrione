@@ -2,7 +2,7 @@
   "name": "AgriOne",
   "short_name": "AgriOne",
   "description": "Smart Farming Platform for Farmers",
-  "start_url": "./index.html"
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#f5faf5",
   "theme_color": "#184d2a",
