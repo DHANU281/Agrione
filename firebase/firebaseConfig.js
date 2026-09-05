@@ -1,12 +1,11 @@
-// Public Firebase web configuration is injected at deploy time through window.__AGRIONE_FIREBASE_CONFIG__.
-// Do not place private keys, service-account JSON, or AI secrets in this file.
-export const firebaseConfig = globalThis.__AGRIONE_FIREBASE_CONFIG__ || {
-    apiKey: '',
-    authDomain: '',
-    projectId: '',
-    storageBucket: '',
-    messagingSenderId: '',
-    appId: ''
+export const firebaseConfig = {
+    apiKey: "AIzaSyCqGRy-YmNSUlTTyaAziobyq-nsCcl8xQoc",
+    authDomain: "agrione-c2499.firebaseapp.com",
+    projectId: "agrione-c2499",
+    storageBucket: "agrione-c2499.firebasestorage.app",
+    messagingSenderId: "531422611800",
+    appId: "1:531422611800:web:e02901e7b5a69335c53d2d"
 };
 
-export const isFirebaseConfigured = Object.values(firebaseConfig).every(Boolean);
+export const isFirebaseConfigured =
+    Object.values(firebaseConfig).every(Boolean);
