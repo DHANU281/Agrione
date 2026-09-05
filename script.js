@@ -8,7 +8,7 @@ import { getSoilServices } from './services/soilService.js';
 import { getStorage } from './services/storageService.js';
 import { getAssistantResponse, DEMO_MESSAGE, SAFETY } from './services/aiAssistantService.js';
 import { languageOptions, getLanguage, setLanguage, t, speechLanguage, applyTranslations, getAssistantQuestions } from './i18n/index.js';
-import { createNotification } from './services/notificationService.js';git add script.js
+import { createNotification } from './services/notificationService.js';
 document.addEventListener('DOMContentLoaded', () => {
     const imageInput = document.getElementById('cropImage');
     const previewBox = document.getElementById('previewBox');
