@@ -24,7 +24,7 @@
                 <input id="globalSearch" type="search" placeholder="Search crops, tools, services..." />
                 <div class="search-results hidden" id="searchResults" aria-live="polite"></div>
             </div>
-            <nav class="nav-links" aria-label="Main Navigation">
+           <nav class="nav-links" aria-label="Main Navigation">
     <a href="#home">Home</a>
     <a href="#dashboard">My Farm</a>
     <a href="#market">Market</a>
@@ -36,40 +36,6 @@
 
     <button class="nav-button" id="loginButton" type="button">Profile</button>
 </nav>
-            <label class="language-control"><span id="languageLabel">🌐 Language</span><select id="languageSelector" aria-label="Language"></select></label>
-                <span class="firebase-mode-indicator" aria-live="polite">Demo Mode — Firebase backend is not connected.</span>
-                <span class="offline-indicator hidden" id="offlineIndicator" aria-live="polite">You are offline. Some features may be temporarily unavailable.</span>
-                <button class="install-app-button hidden" id="installAppButton" type="button">Install AgriOne</button>
-        </div>
-    </header>
-
-    <div class="auth-overlay hidden" id="authOverlay" role="dialog" aria-modal="true" aria-labelledby="authTitle">
-        <div class="auth-card">
-            <button class="modal-close" id="closeAuthButton" type="button" aria-label="Close authentication window">×</button>
-            <div class="auth-brand"><span class="logo-mark">🌾</span><strong>AgriOne</strong></div>
-
-            <div class="auth-view" id="loginView">
-                <span class="eyebrow">Farmer access</span>
-                <h2 id="authTitle">Welcome back</h2>
-                <p class="auth-copy">Sign in to manage your crops, marketplace listings, and farm insights.</p>
-                <form id="loginForm" class="auth-form">
-                    <div class="field">
-                        <label for="loginIdentity">Mobile Number / Email</label>
-                        <input id="loginIdentity" type="text" placeholder="Enter mobile number or email" required />
-                    </div>
-                    <div class="field">
-                        <label for="loginPassword">Password</label>
-                        <input id="loginPassword" type="password" placeholder="Enter password" required />
-                    </div>
-                    <button class="primary-btn auth-submit" type="submit">Login</button>
-                </form>
-                <div class="auth-links">
-                    <button type="button" data-auth-view="signup">Create New Account</button>
-                    <button type="button" data-auth-view="forgot">Forgot Password</button>
-                </div>
-                <button class="demo-farmer-btn" id="demoFarmerButton" type="button">Continue as Demo Farmer</button>
-                <p class="auth-message hidden" id="loginMessage"></p>
-            </div>
 
             <div class="auth-view hidden" id="signupView">
                 <span class="eyebrow">New farmer profile</span>
